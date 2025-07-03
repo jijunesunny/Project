@@ -1,0 +1,51 @@
+<!--../ui/pages/index.html-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Seed - 메인</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!--로그인/회원가입 전용 CSS (순서 중요!style.css다음> 로그인<.js보다 먼저) -->
+  <link rel="stylesheet" href="../assets/css/login-signup.css" />
+    <link rel="stylesheet" href="../assets/css/spread-dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+</head>
+<body>
+  <!-- 공통 헤더(JS로 불러옴) -->
+  <div id="header-area"></div>
+   <!-- 메인 영역: banner+features or 로그인/회원가입 폼 모두 이곳에 위치 -->
+  <!--Banner Section은 항상 main-content에 고정-->
+   <main id="main-content">
+    <!-- 메인땐 Banner+Features Section -->
+    <section class="banner">
+      <img src="../assets/images/forest.jpg" alt="Forest" class="banner-img active"/>
+      <img src="../assets/images/fire.png" alt="Fire" class="banner-img" />
+      <div class="banner-overlay"></div>
+      <div class="banner-text">산불 확산 속도 예측 및 확산거리 예측</div>
+    </section>
+    
+    <!-- Features -->
+    <section class="features">
+      <div class="container">
+        <a href="submain.html" class="feature-item">
+          실시간 확인
+          <img src="../assets/images/map.png" alt="강원도지도" class="feature-image"/>
+        </a>
+        <a href="submain.html" class="feature-item">
+          누적 데이터 확인
+          <img src="../assets/images/bar.png" alt="막대그래프" class="feature-image"/>
+        </a>
+      </div>
+    </section>
+    <!--로그인/회원가입>로그인폼 표시시, showLoginForm()함수에서 .innerHTML 교체// js로 동적으로 뜸 여기 위치 -->
+   <!-- <div class="login-bg-center"><section class="login-box-centered">...</section></div> -->
+  </main>
+
+  <!-- 공통 푸터(JS로 불러옴) -->
+  <div id="footer-area"></div>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/login-signup.js"></script>
+</body>
+</html>

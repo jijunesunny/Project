@@ -1,0 +1,41 @@
+<!-- 로그인 팝업 모달 -->
+<div class="modal-bg" id="loginModal" style="display:none;">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeLogin()">×</button>
+    <h2 class="login-title">로그인</h2>
+    <div class="tab-menu">
+      <button class="tab active" onclick="showTab('member')">회원 로그인</button>
+      <button class="tab" onclick="showTab('guest')">비회원 주문조회</button>
+    </div>
+    <!-- 회원 로그인 폼 -->
+    <form class="login-form" id="memberLogin" onsubmit="return handleLogin(event)">
+      <input type="text" id="userId" placeholder="아이디 (6~20자)" required minlength="6" maxlength="20">
+      <input type="password" id="userPw" placeholder="비밀번호 (8~12자)" required minlength="8" maxlength="12">
+      <div class="form-options">
+        <label><input type="checkbox" id="saveId"> 아이디 저장</label>
+        <span class="find-links">
+          <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
+        </span>
+      </div>
+      <button type="submit" class="login-btn">로그인</button>
+      <div class="login-message" id="loginMsg"></div>
+    </form>
+    <!-- 비회원 주문조회 (샘플, 실제 미구현) -->
+    <form class="login-form" id="guestLogin" style="display:none;">
+      <input type="text" placeholder="주문번호">
+      <input type="text" placeholder="주문자명">
+      <button type="submit" class="login-btn">조회하기</button>
+    </form>
+    <!-- 소셜로그인 -->
+    <div class="social-login">
+      <button class="sns-btn naver"><i class="fab fa-naver"></i></button>
+      <button class="sns-btn kakao"><i class="fab fa-comment"></i></button>
+      <button class="sns-btn facebook"><i class="fab fa-facebook-f"></i></button>
+      <button class="sns-btn google"><i class="fab fa-google"></i></button>
+    </div>
+    <div class="to-signup">
+      <span>회원이 아니신가요?</span>
+      <button class="signup-link" onclick="gotoSignup()">회원가입</button>
+    </div>
+  </div>
+</div>

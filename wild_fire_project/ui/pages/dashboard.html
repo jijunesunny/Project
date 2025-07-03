@@ -1,0 +1,121 @@
+<!--../pages/dashboard.html(혹은 확산예측.jsp 등)-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Seed - 메인</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!--로그인/회원가입 전용 CSS (순서 중요!style.css다음> 로그인<.js보다 먼저) -->
+  <link rel="stylesheet" href="../assets/css/login-signup.css" />
+    <link rel="stylesheet" href="../assets/css/spread-dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+</head>
+<body>
+  <!-- 공통 헤더(JS로 불러옴) -->
+  <div id="header-area"></div>
+
+<main id="main-content">
+  <div class="dashboard-flex">
+    <!-- 좌측 -->
+    <aside class="dash-side">
+      <div class="panel-box">
+        <h3>예측 파라미터</h3>
+        <form id="param-form">
+          <label>지역 <input type="text" name="area" value="강원도"></label>
+          <label>날짜 <input type="date" name="date" value="2025-07-03"></label>
+          <button type="submit">예측 실행</button>
+        </form>
+      </div>
+      <div class="panel-box">
+        <h4>DATA (DAY별)</h4>
+        <table>
+          <tr><th>항목</th><th>DAY1</th><th>DAY2</th></tr>
+          <tr><td>온도</td><td>25</td><td>26</td></tr>
+          <tr><td>습도</td><td>42</td><td>45</td></tr>
+          <tr><td>풍속</td><td>3.2</td><td>4.1</td></tr>
+          <tr><td>강수량</td><td>0</td><td>2</td></tr>
+          <tr><td>누적산불수</td><td>1</td><td>2</td></tr>
+        </table>
+      </div>
+      <div class="panel-box">
+        <h4>산불 매개정보</h4>
+        <ul>
+          <li>확산거리: <span id="spread-dist">650m</span></li>
+          <li>속도: <span id="spread-speed">120 m/h</span></li>
+          <li>평균풍속: <span id="avg-wind">3.7 m/s</span></li>
+        </ul>
+      </div>
+      <div class="panel-box">
+        <h4>용어/범례</h4>
+        <table>
+          <tr><td>확산속도</td><td>1시간 전선 이동(m/h)</td></tr>
+          <tr><td>NDVI</td><td>식생 지수</td></tr>
+          <tr><td>DEM</td><td>지형 고도 정보</td></tr>
+        </table>
+      </div>
+    </aside>
+    <!-- 중앙 -->
+    <section class="dash-center">
+      <div class="panel-box" style="height:240px;">
+        <h3>카카오맵 기반 산불 예측</h3>
+        <div id="map-box" class="kakaomap-placeholder"></div>
+        <span>여기에 산불 예측 지도(KakaoMap)가 표시됩니다.</span>
+        
+      </div>
+      <div class="panel-box" style="height:85px;">
+      
+      </div>
+      <div class="panel-box" style="flex:1;min-height:140px;">
+        <h4>댓글</h4>
+        <div class="comment-list" id="comment-list">
+          <!-- 댓글/대댓글 영역 (JS로 동적 랜더링) -->
+        </div>
+        <form id="comment-form">
+          <textarea name="comment" placeholder="댓글을 입력하세요"></textarea>
+          <button type="submit">작성</button>
+        </form>
+      </div>
+    </section>
+    <!-- 우측 -->
+    <aside class="dash-side">
+      <div class="panel-box">
+        <h4>속도등급 분포</h4>
+        <div id="pie-chart" class="chart-placeholder">
+          <span class="chart-label">빠름</span>
+        </div>
+      </div>
+      <div class="panel-box">
+        <h4>시간별 속도변화</h4>
+        <div id="bar-chart" class="chart-placeholder">
+          <span class="chart-label">데이터 없음</span>
+        </div>
+      </div>
+      <div class="panel-box">
+        <h4>시간별 확산거리</h4>
+        <div id="line-chart" class="chart-placeholder">
+          <svg width="120" height="40">
+            <polyline points="0,35 25,28 50,25 75,18 100,12 120,8"
+              stroke="#3e7866" stroke-width="2" fill="none"/>
+            <polyline points="0,35 25,32 50,31 75,27 100,22 120,18"
+              stroke="#a3cfc5" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+      </div>
+   
+    </aside>
+  </div>
+</main>
+
+
+  </div>
+</main>
+
+ <!-- 공통 푸터(JS로 불러옴) -->
+  <div id="footer-area"></div>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/login-signup.js"></script>
+  <script src="../assets/js/spread-dashboard.js"></script>
+</body>
+</html>

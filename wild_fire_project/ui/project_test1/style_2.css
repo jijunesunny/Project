@@ -1,0 +1,244 @@
+/* style.css*/
+/*========== :root 컬러 / 폰트 설정 ========== */
+:root {
+  --color-dark-brown: #4d3733;
+  --color-green: #c6edc8;
+  --color-khaki: #d4d1b1;
+  --color-black: #000000;
+  --color-emerald-mint: #b6e8d6;
+  --font-sans: 'Noto Sans KR', sans-serif;
+}
+
+/* 기본 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-khaki);
+  color: var(--color-dark-brown);
+  line-height: 1.6;
+}
+/* 3) Top-bar (최상단 로고/언어/로그인/네비 포함 컨테이너) */
+/* 헤더 영역 */
+header {
+  background-color: var(--color-dark-brown);
+  color: var(--color-khaki);
+  padding: 1rem 5rem;/*네비게이션길이1,5떨어져서글씨써짐*/
+}
+/*seed글씨*/
+header h1 {
+  font-size: 1.8rem;
+}
+
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-left: 2cm;
+}
+
+nav a {
+  color: var(--color-emerald-mint);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background-color: var(--color-green);
+  color: var(--color-khaki);
+}
+
+/* seed 영역 - 산불 이미지와 민트색 그라데이션 */
+.seed {
+  position: relative;
+  height: 55vh;
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* background: linear-gradient(
+      to right,
+      var(--color-green) 0%,
+      var(--color-green) 45%,
+      rgba(0,0,0,0) 46%),
+    url('fire.png') right center/cover no-repeat; /* 'fire.png'를 실제 산불 이미지 파일명으로 교체 */
+  color: var(--color-khaki); */
+  overflow: hidden;
+  background: var(--color-green);
+}
+
+.seed-bg {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 1s;
+}
+
+.seed-bg.bg1 {
+  background-image: url('fire.png');     /* 불탄 산불사진 */
+}
+
+.seed-bg.bg2 {
+  background-image: url('forest.jpg');   /* 초록 산속사진 */
+}
+
+.seed-bg.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* seed 텍스트 위치 (왼쪽/가운데 조정) */
+.seed-text {
+  position: relative;
+  z-index: 10;
+  margin-left: 10vw;
+  color: #c6c999 ;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.35);
+}
+
+.seed-text h2 {
+  font-size: 2.5rem;
+  max-width: 700px;
+  line-height: 1.2; 
+}
+
+/* .hero::after {
+  /* 산불 이미지에 어두운 반투명 레이어 */
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 55%;
+  background: linear-gradient(to left, rgba(50,15,0,0.47) 70%, rgba(0,0,0,0));
+  z-index: 1;
+  pointer-events: none;
+} 
+*/
+.hero {
+  position: relative;
+  height: 55vh;
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(
+      to right,
+      var(--color-green) 0%,
+      var(--color-green) 45%,
+      rgba(0,0,0,0) 46%
+    ),
+    url('fire.png') right center/cover no-repeat;
+  color: var(--color-khaki);
+  overflow: hidden;
+  transition: background-image 1s;
+}
+
+/* ─────────────────────────────────────────────────────────
+ .container (공통 레이아웃 래퍼)
+───────────────────────────────────────────────────────── */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/*카드 레이아웃 가로 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+} 
+ 
+/* .card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: stretch;  /* 카드 폭 통일 */
+/* }  */
+/* .cards-wrapper {
+  display: flex;
+  justify-content: space-between; /*칸 사이 여백 자동 분배*/
+ /* align-items: stretch; /*높이를 동일하게 맞춤*/
+/*  max-width: 1200px;  /*전체 폭 제한(선택) */
+ /* margin: 0 auto;  /*중앙 정렬*/
+ /* gap: 20px /*칸 사이 고정 여백*/
+/*  padding: 40px 0; /*위아래 여백*/
+/*}
+
+.cards-wrapper .card {
+  flex: 1;                        /* 균등 분할 */
+ /* background: #fff;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* 반응형: 화면이 좁아지면 1~2열로 전환 */
+/*@media (max-width: 800px) {
+  .cards-wrapper {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .cards-wrapper .card {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+@media (max-width: 500px) {
+  .cards-wrapper .card {
+    flex: 1 1 100%;
+  } */
+/*} */
+
+
+.card {
+  background-color: var(--color-khaki);
+  border: 2px solid var(--color-green);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-emerald-mint);
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--color-dark-brown);
+}
+.card p {
+  color: var(--color-black);
+}
+
+footer {
+  background-color: var(--color-dark-brown);
+  color: var(--color-khaki);
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .hero-text h2 { font-size: 2rem; }
+  .hero-text { width: 60vw; }
+  .hero { height: 35vh; min-height: 190px;}
+}
+@media (max-width: 600px) {
+  header, .container { padding: 1rem; }
+  .hero-text { width: 90vw; margin-left: 1vw;}
+  .hero-text h2 { font-size: 1.2rem;}
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seed UI</title>
+  <style>
+    :root {
+      --color-dark-brown: #4d3733;
+      --color-green: #c6edc8;
+      --color-khaki: #d4d1b1;
+      --color-black: #000000;
+      --color-emerald-mint: #b6e8d6;
+      --font-sans: 'Noto Sans KR', sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-khaki);
+      color: var(--color-dark-brown);
+      line-height: 1.6;
+    }
+    header {
+      background-color: var(--color-dark-brown);
+      color: var(--color-khaki);
+      padding: 1rem 2rem;
+    }
+    header h1 {
+      font-size: 1.8rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    nav a {
+      color: var(--color-emerald-mint);
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background-color: var(--color-green);
+      color: var(--color-khaki);
+    }
+    .hero {
+      background: var(--color-green) url('forest-hero.jpg') center/cover no-repeat;
+      color: var(--color-khaki);
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      max-width: 800px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: var(--color-khaki);
+      border: 2px solid var(--color-green);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-emerald-mint);
+    }
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--color-dark-brown);
+    }
+    .card p {
+      color: var(--color-black);
+    }
+    footer {
+      background-color: var(--color-dark-brown);
+      color: var(--color-khaki);
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Seed</h1>
+    <nav>
+      <ul>
+        <li><a href="#home">홈</a></li>
+        <li><a href="#about">소개</a></li>
+        <li><a href="#services">확산속도</a></li>
+        <li><a href="#contact">확산예측</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h2>자연과 함께하는 지속 가능한 미래를 만듭니다</h2>
+  </section>
+
+  <main class="container">
+    <section id="about">
+      <h2>우리의 이야기</h2>
+      <p>Seed는 숲의 건강을 지키고, 지속 가능한 환경을 지키기위해서 노력합니다.</p>
+    </section>
+
+    <section id="services" class="card-grid">
+      <div class="card">
+        <h3>위험도 시각화</h3>
+        <p>실시간 산불 확산 예측 및 시각화 시스템.</p>
+      </div>
+      <div class="card">
+        <h3>복원력 예측</h3>
+        <p>산림 복원 속도 및 복원력 예측 모델 제공.</p>
+      </div>
+      <div class="card">
+        <h3>데이터 분석</h3>
+        <p>기후·지형·식생 데이터를 통합 분석.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Seed. All rights reserved.
+  </footer>
+</body>
+</html>
