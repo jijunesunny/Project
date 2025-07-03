@@ -1,4 +1,4 @@
-//../ui/assets/js/login-signup.js
+//../assets/js/login-signup.js
 
 // 로그인 성공/실패 처리 함수
 // 로그인 시도 (JSP로 post 날릴 땐 e.preventDefault 지우고 서버로 전송)

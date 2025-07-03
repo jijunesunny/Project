@@ -1,4 +1,4 @@
-//../ui/assets/js/main.js
+//../assets/js/main.js
 // 공통 Header/Footer 불러오기 (상대경로 유의)
 function loadComponent(selector, url) {
   fetch(url)

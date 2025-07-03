@@ -1,3 +1,4 @@
+/*../assets\css\style.css*/
 :root {
   --color-bg-header: #4d3733;
   --color-logo-text: #d4d1b1;
@@ -15,8 +16,10 @@ html { font-size: 16px; }
 body {
   font-family: var(--font-sans);
   background: var(--color-body-bg);
-  min-height: 100vh;
+  min-height: 100vh;           /*푸터 본문 길이와 상관없이 항상아래고정*/
   color: var(--color-bg-header);
+  display: flex;          /*푸터 본문 길이와 상관없이 항상아래고정*/
+  flex-direction: column; /*푸터 본문 길이와 상관없이 항상아래고정*/
 }
 
 /* 공통 컨테이너 */
@@ -24,6 +27,7 @@ body {
   max-width: 65vw;
   margin: 0 auto;
   padding: 0.5rem 1.5rem;
+
 }
 
 /* Header */
@@ -153,9 +157,16 @@ body {
 }
 
 /* ─── Banner ─── */
+#main-content {
+  padding-top: 0 !important; /* 어떤 마진도 강제 무효화 */
+  margin-top: 0 !important;
+  flex: 1 0 auto; /*푸터 본문 길이와 상관없이 항상아래고정*/
+}
 .banner {
   margin-top: 0 !important; /* 어떤 마진도 강제 무효화 */
   padding-top: 0;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
   position: relative;
   height: 55vh;
   min-height: 20.5rem;
@@ -254,6 +265,7 @@ body {
   background: var(--color-footer-bg);
   color: var(--color-logo-text);
   min-height: var(--footer-height);
+  flex-shrink: 0;  /*푸터 본문 길이와 상관없이 항상아래고정*/
 }
 
 /* 대시보드  */
@@ -262,6 +274,9 @@ body {
   font-size: 1.15em;
   margin-right: 4px;
   vertical-align: -2px;
+}
+.reply-list .cmt-ico i {
+  color: var(--color-highlight); /* #c6edc8 */
 }
 
 /* 반응형 */

@@ -1,4 +1,4 @@
-/*../ui/assets/css/login-signup.css*/
+/*../assets/css/login-signup.css*/
 /*(강조 컬러·모던한 스타일, 네이버/카카오/구글/페북 버튼 포함)*/
 /*JSP 연동(아이디/비번 검증, 회원가입 DB저장 등)은 form action="/member", action="/register"로 POST 전송하면 서버에서 처리*/
 /* --- [1] 중앙정렬 래퍼 추가 (기존 파일 맨 위! 푸터안올라오게~~) --- */

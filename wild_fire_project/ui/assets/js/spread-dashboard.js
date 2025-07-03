@@ -1,4 +1,5 @@
 //../assets/js/spread-dashboard.js
+
 window.addEventListener('DOMContentLoaded', () => {
   // 파라미터 예측 폼
   document.getElementById('param-form').onsubmit = function(e) {
@@ -27,4 +28,59 @@ window.addEventListener('DOMContentLoaded', () => {
     </svg>`;
   }
   updateCharts();
+
+  // =====================
+  // 💬 댓글 + 대댓글 + 아이콘 + 코퍼레이션 컬러
+  // =====================
+
+  const commentList = document.getElementById('comment-list');
+  const commentForm = document.getElementById('comment-form');
+  let comments = [
+    { id:1, text:"좋은 예측이네요!", replies:[{id:11, text:"저도 동의합니다"}] },
+    { id:2, text:"지도 확대 기능 있으면 좋겠어요", replies:[] }
+  ];
+
+  function renderComments() {
+    commentList.innerHTML = '';
+    comments.forEach(c=>{
+      const item = document.createElement('div');
+      item.className='comment-item';
+      item.innerHTML = `
+        <span class="cmt-ico"><i class="fas fa-comment-dots"></i></span>
+        <b>익명</b>: ${c.text} 
+        <button class="reply-btn" onclick="showReply(${c.id})">답글</button>`;
+      if(c.replies.length) {
+        const replyDiv = document.createElement('div');
+        replyDiv.className='reply-list';
+        replyDiv.innerHTML = c.replies.map(r=>
+          `<div>
+            <span class="cmt-ico"><i class="fas fa-comment-dots"></i></span>
+            ↳ ${r.text}
+          </div>`
+        ).join('');
+        item.appendChild(replyDiv);
+      }
+      commentList.appendChild(item);
+    });
+  }
+
+  window.showReply = function(cid) {
+    const reply = prompt("대댓글을 입력하세요");
+    if(reply) {
+      const cmt = comments.find(c=>c.id===cid);
+      cmt.replies.push({id:Date.now(), text:reply});
+      renderComments();
+    }
+  }
+
+  commentForm.onsubmit = e=>{
+    e.preventDefault();
+    const txt = commentForm.comment.value.trim();
+    if(txt) {
+      comments.push({id:Date.now(), text:txt, replies:[]});
+      commentForm.comment.value = '';
+      renderComments();
+    }
+  }
+  renderComments();
 });
