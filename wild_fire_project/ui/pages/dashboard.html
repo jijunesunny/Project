@@ -22,9 +22,10 @@
     <aside class="dash-side">
       <div class="panel-box">
         <h3>예측 파라미터</h3>
-        <form id="param-form">
+        <form id="param-row">
           <label>지역 <input type="text" name="area" value="강원도"></label>
-          <label>날짜 <input type="date" name="date" value="2025-07-03"></label>
+          <label>날짜1 <input type="date" name="date1" value="2024-07-04"></label>
+          <label>날짜2 <input type="date" name="date2" value="2025-07-04"></label>
           <button type="submit">예측 실행</button>
         </form>
       </div>
@@ -40,7 +41,7 @@
         </table>
       </div>
       <div class="panel-box">
-        <h4>산불 매개정보</h4>
+        <h4>산불 매개정보1</h4>
         <ul>
           <li>확산거리: <span id="spread-dist">650m</span></li>
           <li>속도: <span id="spread-speed">120 m/h</span></li>
@@ -48,7 +49,7 @@
         </ul>
       </div>
       <div class="panel-box">
-        <h4>용어/범례</h4>
+        <h4>산불 매개정보2</h4>
         <table>
           <tr><td>확산속도</td><td>1시간 전선 이동(m/h)</td></tr>
           <tr><td>NDVI</td><td>식생 지수</td></tr>
