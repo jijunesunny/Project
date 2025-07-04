@@ -42,3 +42,7 @@ function setHeaderActions() {
 // 네비/인스타 후버(아이콘, a링크 CSS에서) 
 }
 
+// (index.html에 .feature-item이 여러개라면 정확히 "실시간 확인"만 골라야함)
+document.querySelectorAll('.feature-item')[0].onclick = function() {
+  window.location.href = '../assets/pages/dashboard.html';
+};
