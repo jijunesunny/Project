@@ -19,7 +19,10 @@ function handleLogin(e) {
   if (id === "testuser" && pw === "12345678") {
     msg.style.color = "green";
     msg.textContent = "로그인 성공!";
-    setTimeout(() => location.href="main.html", 1200); // 로그인 성공 후 메인(혹은 리로드)
+    // setTimeout(() => location.href="main.html", 1200); // 로그인 성공 후 메인(혹은 리로드)
+  //로그인 성공 시 로컬에 저장하고 마이페이지로 이동
+    localStorage.setItem('loggedUser', id);
+    setTimeout(() => location.href="../pages/mypage.html", 1200);
   } else {
     msg.textContent = "잘못입력하셨습니다. 다시 입력해주세요.";
     msg.style.color = "#ce3131";
@@ -83,6 +86,7 @@ function gotoSignup() {
           <input type="text" id="newUserId" name="userId" placeholder="아이디(6~20자)" required minlength="6" maxlength="20">
           <input type="password" id="newUserPw" name="userPw" placeholder="비밀번호(8~12자)" required minlength="8" maxlength="12">
           <input type="email" id="email" name="email" placeholder="이메일" required>
+          <input type="address" id="address" name="address" placeholder="주소" required>
           <input type="text" id="phone" name="phone" placeholder="전화번호" required maxlength="15">
           <button type="submit" class="login-btn signup-btn">회원가입</button>
         </form>

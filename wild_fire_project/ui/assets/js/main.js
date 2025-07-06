@@ -32,13 +32,79 @@ function setHeaderActions() {
       langBtn.textContent = langBtn.textContent === '한국어' ? 'English' : '한국어';
     });
   }
+  // ── 사용자 메뉴 드롭다운 토글 & 클릭 핸들러 ──
+  const userMenu = document.getElementById('user-menu');
+  if (userMenu) {
+    const loginBtn = userMenu.querySelector('.btn-login');
+    const menuList = userMenu.querySelector('.dropdown-list-user');
+
+    // 1) 로그인 상태라면 메뉴 열기, 아니라면 로그인 폼
+    loginBtn.addEventListener('click', () => {
+      if (localStorage.getItem('loggedUser')) {
+        menuList.classList.toggle('open');
+      } else {
+        window.showLoginForm();
+      }
+    });
+
+    // 2) 메뉴 항목별 동작
+    userMenu.querySelector('#link-mypage')
+      .addEventListener('click', () => {
+        menuList.classList.remove('open');
+        location.href = '../assets/pages/mypage.html';
+      });
+    userMenu.querySelector('#link-view-results')
+      .addEventListener('click', () => {
+        menuList.classList.remove('open');
+        // 마지막 조회 결과 대시보드에서 보기
+        location.href = '../assets/pages/dashboard.html?view=last';
+      });
+    userMenu.querySelector('#link-download')
+      .addEventListener('click', () => {
+        menuList.classList.remove('open');
+        // 마지막 조회 결과 다운로드
+        const rec = JSON.parse(localStorage.getItem('lastViewedResult'));
+        if (rec) {
+          const blob = new Blob([JSON.stringify(rec.payload, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = `result-${rec.id}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+      });
+    userMenu.querySelector('#link-logout')
+      .addEventListener('click', () => {
+        menuList.classList.remove('open');
+        localStorage.removeItem('loggedUser');
+        location.href = '../pages/index.html';
+      });
+
+    // 3) 외부 클릭 시 드롭다운 닫기
+    document.addEventListener('mousedown', e => {
+      if (!userMenu.contains(e.target)) {
+        menuList.classList.remove('open');
+      }
+    });
+  }
+
 // header 로드 후 "로그인" 이벤트 연결
+//─ 로그인 버튼 hover & click (추가)
   const btnLogin = document.querySelector('.btn-login');
   if(btnLogin) {
+    // btnLogin.addEventListener('mouseenter', () => btnLogin.classList.add('hover'));
+    // btnLogin.addEventListener('mouseleave', () => btnLogin.classList.remove('hover'));
+    // btnLogin.addEventListener('click', showLoginForm);
     btnLogin.addEventListener('mouseenter', () => btnLogin.classList.add('hover'));
     btnLogin.addEventListener('mouseleave', () => btnLogin.classList.remove('hover'));
-    btnLogin.addEventListener('click', showLoginForm);
+    btnLogin.addEventListener('click', () => {
+      // 보완: login-signup.js 의 전역 showLoginForm 호출
+      if (typeof window.showLoginForm === 'function') {
+        window.showLoginForm();
+      }
+    });
   }
+
   // showLoginForm 임시방편
 function showLoginForm() {
   alert('로그인 기능 준비중!');

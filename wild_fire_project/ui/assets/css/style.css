@@ -305,3 +305,24 @@ body {
   .main-nav ul { gap: 1rem; }
   .feature-item { padding: 1rem 0.5rem; }
 }
+
+/* ── 사용자 메뉴 드롭다운 ── */
+.user-menu { position: relative; display: inline-block; }
+.user-menu .dropdown-list-user {
+  display: none;
+  position: absolute; top: 100%; right: 0;
+  background: var(--color-body-bg);
+  border: 0.15rem solid var(--color-nav-text);
+  border-radius: 0.7rem;
+  list-style: none; margin: 0; padding: 0.5rem 0;
+  min-width: 10rem; z-index: 50;
+}
+.user-menu .dropdown-list-user.open { display: block; }
+.user-menu .dropdown-list-user li {
+  padding: 0.6rem 1rem; cursor: pointer;
+  color: var(--color-bg-header); white-space: nowrap;
+}
+.user-menu .dropdown-list-user li:hover {
+  background: var(--color-highlight);
+  color: var(--color-body-bg);
+}
