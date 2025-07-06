@@ -5,21 +5,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Seed - 확산예측 대시보드</title>
+  <!-- KakaoMap 라이브러리 -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b737229386d781c1484c4431d4a76a1"></script>
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/spread-dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  
 </head>
 <body>
-  <div id="header-area"></div>
+  <div id="header-area"></div>  
   <main id="main-content">
+    <div class="main-dashboard-frame">
     <div class="dashboard-wrap">
       <!-- 좌측 정보+DATA -->
       <aside class="dash-left">
         <div class="panel-box param-box">
-          <h3 class="center">강 원 특 별 자 치 도</h3>
+          <h3 class="center">강원 특별자치도</h3>
           <div class="custom-dropdown" id="region-dropdown">
-            <div class="dropdown-selected" onclick="toggleDropdown()">춘천시</div>
-            <ul class="dropdown-list">
+          <div class="dropdown-selected" onclick="toggleDropdown()">
+           <span>시군 지역을 선택하세요</span>
+           <span class="dropdown-arrow"></span>
+          </div>
+          <ul class="dropdown-list">
               <li onclick="selectRegion(this)">춘천시</li>
               <li onclick="selectRegion(this)">원주시</li>
               <li onclick="selectRegion(this)">강릉시</li>
@@ -57,37 +64,55 @@
             <button type="button" id="run-predict">예측 실행</button>
           </div>
         </div>
+        <!--=====================================================-->
         <!-- DATA 테이블 (2컬럼) -->
         <div class="panel-box data-table">
           <h4 class="center">DATA</h4>
           <table>
             <tr><th>항목</th><th>과거일자</th><th>예측일자</th></tr>
-            <tr><td>온도</td><td id="d1-t">25</td><td id="d2-t">26</td></tr>
-            <tr><td>습도</td><td id="d1-h">42</td><td id="d2-h">45</td></tr>
+            <tr><td>평균기온</td><td id="d1-t">25</td><td id="d2-t">26</td></tr>
+            <tr><td>상대습도</td><td id="d1-h">42</td><td id="d2-h">45</td></tr>
+            <tr><td>실효습도</td><td id="d1-h">42</td><td id="d2-h">45</td></tr>
             <tr><td>풍속</td><td id="d1-w">3.2</td><td id="d2-w">4.1</td></tr>
+            <tr><td>최대풍속</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>            
+            <tr><td>풍향</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>
             <tr><td>강수량</td><td id="d1-r">0</td><td id="d2-r">2</td></tr>
+            <tr><td>무강수일수</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>
             <tr><td>누적산불수</td><td id="d1-c">1</td><td id="d2-c">2</td></tr>
-            <tr><td>확산거리</td><td id="d1-dist">650m</td><td id="d2-dist">780m</td></tr>
-            <tr><td>확산속도</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
-            <tr><td>평균풍속</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>
+            <tr><td>확산거리(m)</td><td id="d1-dist">650m</td><td id="d2-dist">780m</td></tr>
+            <tr><td>확산속도(m/h)</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
+            <tr><td>사면방향</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
+            <tr><td>고도(DEM)</td><td id="d1-s">350</td><td id="d2-s">410</td></tr>
+            <tr><td>식생(NDVI)</td><td id="d1-s">0.71</td><td id="d2-s">0.77</td></tr>
+            <tr><td>활엽수</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
+            <tr><td>혼효림</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
           </table>
-        </div>
-        <!-- 산불 매개정보 -->
-        <div class="panel-box info-box">
+        <!-- </div>-->
+      <!--산불 매개정보-- -->
+        <!-- <div class="panel-box info-box">
           <h4 class="center">산불 매개정보</h4>
           <ul>
-            <li>확산속도: <span id="sp1">120 m/h</span> <span id="sp2" class="ml">/ 143 m/h</span></li>
+            <b><li>확산속도: <span id="sp1">120 m/h</span> <span id="sp2" class="ml">/ 143 m/h</span></li></b>
             <li>NDVI(식생): 0.71 / 0.77</li>
             <li>DEM(고도): 350m / 410m</li>
-          </ul>
-        </div>
+          </ul> -->
+      <!--</div> -->
       </aside>
+
+      <!--=====================================================-->
       <!-- 중앙 지도/댓글 -->
-      <section class="dash-col dash-center">
+      <section class="dash-center">
         <div class="panel-box map-box" id="map-area">
+         <!-- [JS에서 #map-area에 맵 삽입/결과 시각화] <div id="real-map">를 써넣을 필요는 없음. -->
+          <!-- <div id="legend">
+          <b>확산 등급</b><br>
+              <span style="color:#ffe066; font-weight:bold;">●</span> 느림 (1시간)<br>
+              <span style="color:#ffa94d; font-weight:bold;">●</span> 보통 (2시간)<br>
+              <span style="color:#ff4d4f; font-weight:bold;">●</span> 빠름 (3시간)
+          </div> -->
           <div class="placeholder-graphic">
             <i class="fas fa-map-marked-alt"></i>
-            <div class="ph-text">여기에 <b>KakaoMap</b>과<br>머신러닝 결과맵 표시 예정</div>
+            <div class="ph-text">예측실행 결과를 여기에서 <b>KakaoMap</b>으로<br>확인하실 수 있습니다.</div>
           </div>
         </div>
         <div class="panel-box comment-box">
@@ -101,15 +126,20 @@
           </form>
         </div>
       </section>
+      
+      
+      <!--=======================================================-->
       <!-- 우측 차트+통계 -->
-      <aside class="dash-col dash-right">
+      <aside class="dash-right">
         <div class="panel-box chart-box">
           <h4>속도등급 분포</h4>
           <div class="placeholder-graphic">
             <i class="fas fa-chart-pie"></i>
             <div class="ph-text">예측 속도등급 분포 차트<br>(추후 Chart.js/Matplotlib 교체)</div>
+            <!--차후 차트.js로 <canvas id="speedChart"></canvas> -->
           </div>
         </div>
+        
         <div class="panel-box chart-box">
           <h4>시간별 속도변화</h4>
           <div class="placeholder-graphic">
@@ -117,6 +147,7 @@
             <div class="ph-text">속도변화 바차트</div>
           </div>
         </div>
+
         <div class="panel-box chart-box">
           <h4>시간별 확산거리</h4>
           <div class="placeholder-graphic">
@@ -125,8 +156,11 @@
           </div>
         </div>
       </aside>
+
     </div>
+  </div>
   </main>
+
   <div id="footer-area"></div>
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/spread-dashboard.js"></script>

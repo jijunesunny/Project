@@ -39,10 +39,18 @@ function setHeaderActions() {
     btnLogin.addEventListener('mouseleave', () => btnLogin.classList.remove('hover'));
     btnLogin.addEventListener('click', showLoginForm);
   }
+  // showLoginForm 임시방편
+function showLoginForm() {
+  alert('로그인 기능 준비중!');
+}
 // 네비/인스타 후버(아이콘, a링크 CSS에서) 
 }
 
+//실시간확인창 눌러서 dashboard.html로 연결
 // (index.html에 .feature-item이 여러개라면 정확히 "실시간 확인"만 골라야함)
-document.querySelectorAll('.feature-item')[0].onclick = function() {
-  window.location.href = '../assets/pages/dashboard.html';
-};
+const featureItems = document.querySelectorAll('.feature-item');
+if (featureItems.length > 0) {
+  featureItems[0].onclick = function() {
+    window.location.href = '../assets/pages/dashboard.html';
+  };
+}

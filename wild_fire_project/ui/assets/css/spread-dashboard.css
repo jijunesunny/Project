@@ -6,142 +6,215 @@
   --color-highlight: #c6edc8;
   --color-footer-bg: #4d3733;
   --color-body-bg: #d4d1b1;
+  --clolr-text-shadow: #b0e8d688;
+  --color-comment-text: #21897e;
   --box-radius: 0.8rem;
+  --header-height: 7.5rem;
+  --footer-height: 4.5rem;
 }
-
-body {
-  background: var(--color-body-bg);
-}
+body {background: var(--color-body-bg);}
 .center { text-align: center !important; }
+.main-dashboard-frame {
+  width: 100vw;
+  min-height: 24rem;/*최소높이로 푸터만나는 길이 필요에 따라 더 줄여도 됨 */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: transparent;
+}
 
+/* dashboard-wrap, dash-left/center/right, panel-box 등은
+  flex 코드 그대로!
+   단, height: 100%; 로 부모(.main-dashboard-frame)의 height에 맞춤 */
 /* 대시보드 전체 */
 .dashboard-wrap {
   display: flex;
   gap: 2vw;
-  max-width: 98vw;
-  min-height: calc(100vh - 6rem);
-  margin: 0 auto;
+  /* height: 100%; */
   justify-content: space-between;
-  padding: 2vh 1vw 2vh 1vw;
+  padding: 2vh 2vw ;
   box-sizing: border-box;
-  align-items: stretch;
+  min-height: 0;
+  width: 100vw;
+  margin: 0 auto;
+  max-width: 100vw;
+  align-items: stretch; 
+  /* overflow: visible; */
 }
-
-/* 좌, 우, 중앙 너비 */
-.dash-left { 
+/* 좌측: param-box(1), data-table(2) — 1:2 비율 */
+/* 좌, 우 너비 */
+.dash-left,  .dash-center, .dash-right {
+/* width/height 단위 vw/vh로만, rem 최소화 */
+  display: flex;
+  /* flex: 1 1 0; */
   flex-direction: column;
-  gap: 2vh;
-  width: 25vw; 
-  min-width: 15rem; 
-  display: flex; 
-  flex-direction: column; 
-  flex: 1 1 0;   /* grow 허용 */
-  height: 100%;  /* (추가) */
+  /* height: 100%; */
+  min-width: 0;
+  /* gap: 1.1rem; */
 }
-/* 왼쪽 마지막 박스 푸터에 딱 붙이기 */
-.dash-left > .panel-box:last-child { 
-  margin-bottom: 0; 
-  margin-top: auto;      /* 남는공간 밀어내기 */
+.dash-left   { width: 19vw; gap: 0.8vh; }
+.dash-center { flex: 1 1 0; gap: 0.8vh; }
+.dash-right  { width: 23vw; gap: 1.2vh; justify-content: space-between; }
+/* .dash-left, .dash-right {
+  width: 21vw; min-width: 13.5rem; max-width: 27vw; flex: 0 0 21vw;
 }
+.dash-center { width: 56vw; min-width: 30vw; max-width: 65vw; flex: 1 1 0; }
+ */
+/* 좌측(Left) 1:2 비율 분배 */
+.dash-left .panel-box.param-box {flex: 1 1 0;}
+.dash-left .panel-box.data-table {flex: 2 1 0;}
 
-.dash-center { 
-  flex: 1; 
-  min-width: 44vw; 
-  max-width: 40vw; 
+/* 우측 차트박스 3개 동일 높이 */
+.dash-right .chart-box {
+  flex: 1 1 0;
+  min-height: 0;
+  margin-bottom: 0.9vw;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;   /* (예: 2.4rem → 1.2rem로 줄이기) */
+  justify-content: flex-start;
+  overflow: unset;
 }
-.dash-right { width: 25vw; min-width: 16rem; }
+.dash-right .chart-box:last-child { margin-bottom: 0; }
+.panel-box:last-child { margin-bottom: 0; }
 
 /* 제목 중앙정렬 */
 .panel-box h3, .panel-box h4 { text-align: center; margin-bottom: 1.1rem; }
 .panel-box.map-box { min-height: 41vh; } /* 지도(그래픽) 칸 늘림 */
 .panel-box.comment-box { margin-top: 1.1rem; } /* 댓글 마진 줄임 */
 
-/* 패널박스 */
+/* 내부 패널박스 */
 .panel-box {
   background: transparent;
-  border: 0.15rem solid var(--color-nav-text);
+  border: 0.13rem solid var(--color-nav-text);
   border-radius: var(--box-radius);
   box-sizing: border-box;
-  padding: 1.6rem 1.1rem 1.3rem 1.1rem;
-  margin-bottom: 0;
-  margin-right: 0.5vw;
+  padding: 1.1rem 0.7rem 1.2rem 0.7rem;
+  margin-bottom: 1.1vw;
+  width: 100%;
+  overflow: unset;/* 내부 스크롤/오버플로우 처리 삭제 */
 }
 
 /* 예측 파라미터 */
+/* 강원특별자치도 글씨 완전 중앙정렬 */
+.param-box { gap: 1.1rem; }
+.param-box h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 2.1rem;
+  letter-spacing: 0.15rem;
+  margin-bottom: 0; /*지금좋아*/
+  padding: 0.3rem 0;
+  word-break: keep-all;
+}
+.custom-dropdown,
+.param-row,
+.param-row label,
+.param-row input[type="date"],
+.param-box button {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.custom-dropdown { margin: 0; margin-bottom: 0.8rem;}/*지금좋아*/
+.param-box button { margin-top: 0; }
+.param-row { margin-bottom: 0.8rem !important; }
+.vs-text { margin: 0.2rem 0 0.5rem 0; font-weight: bold; letter-spacing: 0.08em; }
 
 .param-box label, .param-row label {
   color: #4d3733;
-  font-size: 1.5rem;
-  margin-right: 1vw;
+  font-size: 1.2rem;
 }
-/* 센터링 */
-.param-box, .param-box * { text-align: center; }
-.param-box .center { justify-content: center; }
-.param-box h3 {
-  margin-bottom: 0.4rem; /* 기본값은 보통 1~1.5rem → 더 줄이기 */
-}
+.calendar-label { margin-bottom: 0.1rem !important; }
 
-.param-row { display: flex; gap: 0.25rem !important; align-items: center; margin-bottom: 0.5rem!important; justify-content: center; }
-.param-row label, .param-box label { color: #4d3733; font-size: 1.03rem; }
-.vs-text { margin: 0.3rem 0 !important; }
-.calendar-label { margin-bottom: 0.1rem !important; } /* label 하단 여백 최소화 */
-.param-box select {
-  width: 12vw; min-width: 9rem; max-width: 16rem;
-  font-size: 1rem; padding: 0.5rem 0.6rem;
-  border-radius: 0.5rem;
+.param-box input[type="date"] {
   background: var(--color-body-bg);
+  color: #4d3733;
   border: 0.15rem solid var(--color-nav-text);
-  text-align: center;
-  margin: 0 auto;
+  border-radius: var(--box-radius);
+  font-size: 1rem;
+  text-align: center;   /* 글씨 중앙 */
+  padding: 0.25rem 0.7rem;
   box-sizing: border-box;
-  height: 0.15rem; /* 7개 행 정도 보이게 */
-  overflow-y: auto;
-  outline: none; /* 기본 검정 테두리 제거 */
-  transition: border 0.18s;
-  padding: 0.3rem 0.3rem;
+  /* width: 7vw;
+  min-width: 5.7rem; */
 }
-.param-box select:focus, 
-.param-box select:hover {
-  border: 0.15rem solid var(--color-highlight);  /* 밝은 민트 */
+.param-box button {
+  /* margin-top: 0.2rem; */
+  background: var(--color-nav-text);
+  color: #4d3733;
+  font-weight: bold;
+  border-radius: var(--box-radius);
+  border: none;
+  padding: 0.38rem 1.1rem;
+  cursor: pointer;
+  font-size: 1.05rem;
+  transition: background 0.17s;
+  width: 100%;
 }
-/* 모든 스크롤바 스타일 */
-::-webkit-scrollbar {
-  width: 0.2rem;
-  background: var(--color-body-bg);   /* 대시보드 배경색 */
+.param-box button:hover {background: var(--color-highlight);}
+
+
+/*지역선택 스크롤바 스타일*/
+
+.dropdown-list::-webkit-scrollbar {
+  width: 0.4rem;
+  background: var(--color-body-bg);
+  border-radius: 6px;
+} 
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: #21897e;
   border-radius: 6px;
 }
-
-::-webkit-scrollbar-thumb {
-  background: #d0d0c0; 
-  border-radius: 6px;
+.dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: #b0e8d6;  
+} 
+/* 파이어폭스 대응 */
+.dropdown-list {
+  scrollbar-width: thin;
+  scrollbar-color: #21897e var(--color-body-bg);
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: #b0e8d6;    /* 마우스 오버시 민트컬러 */
-}
+/* 시 군박스 (드롭다운)  */
 .custom-dropdown {
   position: relative;
-  width: 10rem;
-  margin: 0 auto;
-  font-size: 1.18rem;
-  text-align: center;
+  /* width: 12vw;
+  min-width: 9.7rem;
+  max-width: 15vw;
+  margin: 0 auto 1.1rem auto; */
+  font-size: 1.1rem;
+  text-align: center;   /* 글씨 중앙 */
+  user-select: none;
 }
 .dropdown-selected {
   border: 0.15rem solid var(--color-nav-text); /*테투리*/
   border-radius: var(--box-radius);
   background: var(--color-body-bg);
-  padding: 0.3rem 0.3rem;
+  padding: 0.34rem 0.3rem;
   cursor: pointer;
   user-select: none;
   transition: border 0.16s;
+  position: relative;
+  text-align: center;
+  padding-right: 2.1em; /* 아이콘 공간 확보 */ 
+}
+.dropdown-selected .dropdown-arrow {
+  position: absolute;
+  right: 0.85em;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0; height: 0;
+  border-left: 0.36em solid transparent;
+  border-right: 0.36em solid transparent;
+  border-top: 0.48em solid #4d3733;
+  pointer-events: none; /* 클릭 막음 */
 }
 .dropdown-list {
   display: none;
   position: absolute;
-  top: 2.9rem;
+  top: 2.8rem;
   left: 0;
   width: 100%;
   max-height: 15rem;
@@ -164,47 +237,7 @@ body {
   background: var(--color-highlight);
   color: #493c30;
 }
-/* 파이어폭스(최신)도 대응하고 싶으면 */
-.param-box select {
-  scrollbar-color: #b0e8d6 var(--color-body-bg);  /* thumb, track */
-  scrollbar-width: thin;
-}
 
-.param-box option { padding: 0.23rem 0; }
-
-.param-box input[type="date"] {
-  background: var(--color-body-bg);
-  color: #4d3733;
-  border: 1.2px solid var(--color-nav-text);
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  padding: 0.25rem 0.7rem;
-  width: 7vw;
-  min-width: 5.7rem;
-}
-.param-box button {
-  margin-top: 0.2rem;
-  background: var(--color-nav-text);
-  color: #4d3733;
-  font-weight: bold;
-  border-radius: 0.5rem;
-  border: none;
-  padding: 0.36rem 1.2rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.17s;
-}
-.param-box button:hover {
-  background: var(--color-highlight);
-}
-.param-box .dropdown-selected,
-.param-box input[type="date"],
-.param-box button {
-  width: 100%;
-  box-sizing: border-box;
-  min-width: 0;
-  max-width: 100%;
-}
 /* DATA 테이블 */
 .data-table table {
   width: 100%;
@@ -218,26 +251,30 @@ body {
   text-align: center;
 }
 .data-table th { color: #4d3733; }
-
-/* info-box */
-.info-box ul {
-  margin: 0.5rem 0 0 0;
-  padding: 0 0 0 0.7rem;
-  color: #4d3733;
+/* 데이터테이블 내부도 너무 좁지 않게 font 크기, 테이블 가독성 유지 */
+.data-table table,
+.data-table th,
+.data-table td {
   font-size: 1rem;
-  list-style: disc;
+  word-break: keep-all;
 }
-.info-box .ml { margin-left: 0.8vw; color: #21897e; font-weight: 600; }
+/* 데이터 내용 겹침 방지! */
+.data-table table { table-layout: fixed; }
+.data-table th, .data-table td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+/*==================================*/
 /* 중앙 지도/차트/댓글 */
 .map-box {
   flex: 2;
-  min-height: 32vh;
+  min-height: 41vh;
+  width: 100%; 
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   background: transparent;
 }
+
 .placeholder-graphic {
   text-align: center;
   color: var(--color-nav-text);
@@ -278,27 +315,60 @@ body {
 .comment-item { margin-bottom: 0.8rem; }
 /*댓글아이콘*/
 .cmt-ico i { color: #21897e; margin-right: 0.22em; }
+/*답글*/
 .reply-btn {
-  font-size: 0.94em;
-  color: #21897e;
+  font-size: 0.97em;
+  color: var(--color-nav-text);
   background: none;
   border: none;
   cursor: pointer;
   margin-left: 0.3em;
 }
 .reply-list { margin-left: 1.6em; border-left: 2px solid #b0e8d6; padding-left: 0.7em; }
+/* 진한 민트 스크롤바 */
+.comment-list::-webkit-scrollbar {
+  width: 0.4rem;
+  background: var(--color-body-bg);
+  border-radius: 6px;
+}
+.comment-list::-webkit-scrollbar-thumb {
+  background: #21897e;  /* 진한 민트 */
+  border-radius: 6px;
+}
+.comment-list::-webkit-scrollbar-thumb:hover {
+  background: #b0e8d6; /* 기존 nav-text 컬러로 hover */
+}
+/* 스크롤삼각바 파이어폭스 대응 */
+.comment-list {
+  scrollbar-width: thin;
+  scrollbar-color: #21897e var(--color-body-bg);
+}
+/* 댓글 폼 창 */
+#comment-form {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+  margin-top: 0.5rem;
+}
 #comment-form textarea {
   width: 100%;
-  min-height: 2.6rem;
+  min-height: 2.3rem;
   background: var(--color-body-bg);
   color: #493c30;
   border: 1.2px solid var(--color-nav-text);
   border-radius: 0.6rem;
   padding: 0.3rem 0.6rem;
   font-size: 1.03rem;
+  resize: vertical;
+  box-sizing: border-box;
+  flex: 1 1 0;
 }
 #comment-form button {
-  margin-top: 0.18rem;
+  width: auto;
+  min-width: 4rem;
+  border-radius: 0.5rem;
+  align-self: flex-end;
+  margin-top: 0;
   background: var(--color-nav-text);
   color: #4d3733;
   border: none;
@@ -306,10 +376,10 @@ body {
   font-weight: 700;
   padding: 0.25rem 1.25rem;
   font-size: 1.02rem;
-  float: right;
+  float: none;
   transition: background 0.16s;
 }
-#comment-form button:hover { background: var(--color-highlight); }
+#comment-form button:hover {background: var(--color-highlight); }
 
 /* 우측 차트 */
 .chart-box { min-height: 14vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;}
@@ -320,9 +390,26 @@ body {
   padding-top: 0.7rem;
 }
 
-/* 반응형 */
-@media (max-width: 1100px) {
-  .dashboard-wrap { flex-direction: column; gap: 2vh; }
-  .dash-left, .dash-right, .dash-center { width: 100vw; min-width: 0; max-width: 100vw;}
-  .map-box { min-height: 20vh; }
+
+/* 반응형(화면 900px 이하)에서 박스 최소 폭과 폰트 조정  */
+@media (max-width: 900px) {
+  .dashboard-wrap { flex-direction: column; }
+  .dash-left, .dash-center, .dash-right {
+    width: 97vw; min-width: 0; max-width: 100vw; flex: 1 1 100vw;
+  }
+  .panel-box { margin-bottom: 1.7vw; }
+}
+@media (max-width: 700px) {
+  .param-box h3 { font-size: 1.25rem; padding: 0.2rem 0; }
+  .panel-box { padding: 0.6rem 0.3rem 0.8rem 0.3rem; }
+  .custom-dropdown, .param-box input[type="date"], .param-box button { font-size: 1rem; }
+}
+/*실제 맵이 렌더링될 사이즈 잡아주기*/
+#real-map, .map-box #real-map {
+  min-height: 32vh !important;
+  height: 38vh !important; /* (맵/그래픽/박스 모두 vh 단위!) */
+  width: 100% !important;
+  /*만약 화면이 너무 작거나 너무 커질 때를 대비*/
+  max-height: 55vh;
+  min-height: 28vh;
 }

@@ -1,11 +1,12 @@
 /*../assets\css\style.css*/
 :root {
   --color-bg-header: #4d3733;
+  --color-footer-bg: #4d3733;
   --color-logo-text: #d4d1b1;
+  --color-body-bg: #d4d1b1;
   --color-nav-text: #b0e8d6;
   --color-highlight: #c6edc8;
-  --color-footer-bg: #4d3733;
-  --color-body-bg: #d4d1b1;
+  --clolr-text-shadow: #b0e8d688;
   --font-sans: 'Noto Sans KR', sans-serif;
   --header-height: 7.5rem;
   --footer-height: 4.5rem;
