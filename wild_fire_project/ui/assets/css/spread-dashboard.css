@@ -266,7 +266,9 @@ body {background: var(--color-body-bg);}
 /* 중앙 지도/차트/댓글 */
 .map-box {
   flex: 2;
-  min-height: 41vh;
+  min-height: 41vh; /*지도 담는사이즈 화면세로길이41% */
+  /*만약 모니터 높이가 900px이면 41vh = 0.41 × 900px = 약 369px */
+  /*보통 지도나 큰 박스는 300~500px 정도는 되어야 보임*/
   width: 100%; 
   padding: 0;
   display: flex;

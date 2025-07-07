@@ -142,6 +142,8 @@ window.addEventListener('DOMContentLoaded', () => {
   renderComments();
 
 
+ //================================================================= 
+//====================================================================
   //===================================================================
   //===================================================================
   //===================================================================
@@ -150,6 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
   //실제데이터만 wildfireData에 넣으면 끝
   // ----------- [여기부터 드롭다운/맵 유지] ---------------------
 // ① 지역 위도경도 데이터
+
 const regionCenters = {
   "춘천시": [37.8813, 127.7298],
   "원주시": [37.3422, 127.9201],
@@ -205,22 +208,23 @@ function resetMapToGuide() {
       </div>
     </div>  
   `;
-   map = null;
+  map = null; 
 }
-let map = null, mapTimer = null, mapMarker = null;
-  //최초 첫 진입시 안내문구!(한번만)
-window.addEventListener('DOMContentLoaded', resetMapToGuide);
-//   document.getElementById('map-area').innerHTML = `
-//   <div id="real-map"></div>`;
-//   setTimeout(function(){
-//     drawWildfireRoute(region, predictDate);
-//   }, 30);
-// };
+let kakaoMapReady = false, map = null, mapMarker = null, mapTimer = null;
 
-  //====real-map div가 없으면 생성(무조건 map-area 안에 들어가도록!)====
+// 최초 첫 진입시 안내문구!(한번만)
+window.addEventListener('DOMContentLoaded', resetMapToGuide);
+
+// 카카오맵 API 비동기 로드 후 콜백 등록
+kakao.maps.load(() => {
+  kakaoMapReady = true;
+  resetMapToGuide();
+});
+
+//====real-map div가 없으면 생성(무조건 map-area 안에 들어가도록!)====
 function ensureRealMapDiv() {
-  const mapArea = document.getElementById('map-area');
-  let mapDiv = document.getElementById('real-map');
+  const mapArea = document.getElementById('map-area'); //부모 div map-area 선택
+  let mapDiv = document.getElementById('real-map'); // real-map div가 없으면 생성
   if (!mapDiv) {
     mapArea.innerHTML = `<div id="real-map" style="width:100%;height:340px"></div>`;
     mapDiv = document.getElementById('real-map');
@@ -228,64 +232,80 @@ function ensureRealMapDiv() {
   return mapDiv;
 }
 
-//③ 카카오맵 함수, 전역에서 정의
-window.showKakaoMap = function (region) {
-  const coord = regionCenters[region];
+//③ 카카오맵 호출함수, 전역에서 정의
+// 카카오맵 관련 함수 정의 및 실행은 여기 안에!
+window.showKakaoMap = function(region) {
+  if (!kakaoMapReady) {
+    alert('카카오맵 API가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
+  const coord = regionCenters[region]; // regionCenters는 시군별 위도경도 객체
   if (!coord) return;
-  const mapArea = document.getElementById('map-area');
-    mapArea.innerHTML = `<div id="real-map" style="width:100%;height:100%"></div>`;
+
+  // 카카오 지도 API가 준비된 후 실행
+  kakao.maps.load(function() {
+    const mapArea = document.getElementById('map-area'); // 부모 지도 영역 div 선택
+    mapArea.innerHTML = `<div id="real-map" style="width:100%;height:100%"></div>`; // 지도 div 생성
     map = new kakao.maps.Map(document.getElementById('real-map'), {
       center: new kakao.maps.LatLng(coord[0], coord[1]),
       level: 8,
       mapTypeId: kakao.maps.MapTypeId.TERRAIN
     });
-  //마커, polyline 추가 가능
- // 기존 마커 제거
-  if (mapMarker) { mapMarker.setMap(null); mapMarker = null; }
- // 초기 마커
+    // 기존 마커 제거
+    if (mapMarker) { mapMarker.setMap(null); mapMarker = null; }
+    // 초기 마커
     mapMarker = new kakao.maps.Marker({
-    position: new kakao.maps.LatLng(coord[0], coord[1]),
-    map: map,
-    title: region
+      position: new kakao.maps.LatLng(coord[0], coord[1]),
+      map: map,
+      title: region
+    });
+    resetMapTimer(); // 5분 후 리셋 타이머
   });
-  resetMapTimer(); // 5분 후 리셋 타이머
 }
 
 //실제로 카카오맵 그리기
 //산불확산을 지도에 경로, 마커, 툴팁 그리기
 window.drawWildfireRoute = function (region, date) {
-  const data = wildfireData[region]?.[date];
-  if (!data || !data.확산경로) {
-    resetMapToGuide();
+  if (!kakaoMapReady) {
+    alert('카카오맵 API가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
     return;
   }
-//div가 없으면 위에서 real-map만들어주고,있으면 그냥 쓰게됨
-  const mapDiv = ensureRealMapDiv(); 
+    const data = wildfireData[region]?.[date];
+    if (!data || !data.확산경로) {
+      resetMapToGuide();
+      return;
+  }
+
+  //div가 없으면 위에서 real-map만들어주고,있으면 그냥 쓰게됨
+  kakao.maps.load(function() {
+    const mapDiv = ensureRealMapDiv();
     map = new kakao.maps.Map(mapDiv, {
       center: new kakao.maps.LatLng(data.확산경로[0].lat, data.확산경로[0].lng),
       level: 7,
       mapTypeId: kakao.maps.MapTypeId.TERRAIN
   });
-  //polyline/marker/tooltip 등 추가
-//  drawWildfireRoute(region, predictDate);
+
   //선(확산 경로) 그리기
   const linePath = data.확산경로.map(p => new kakao.maps.LatLng(p.lat, p.lng));
   const polyline = new kakao.maps.Polyline({
     map, path: linePath, strokeWeight: 5,
     strokeColor: '#ff6347', strokeOpacity: 0.7
   });
-  //시작/종료 지점 마커(data.확산경로 배열의 첫/마지막 값을 Lat/Lng 값으로 직접 생성)
+  //시작/종료 지점 마커
   const start = data.확산경로[0];
   const end = data.확산경로[data.확산경로.length - 1];
+
   new kakao.maps.Marker({
     map, position: new kakao.maps.LatLng(start.lat, start.lng),
     image: new kakao.maps.MarkerImage('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', new kakao.maps.Size(24, 36))
   });
+
   new kakao.maps.Marker({
     map, position: new kakao.maps.LatLng(end.lat, end.lng),
     image: new kakao.maps.MarkerImage('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStarBlue.png', new kakao.maps.Size(24, 36))
   });
-  //각 지점 풍향(애로우) 그리기 (각 경로마다), 인포윈도우 화살표/튤팁
+
+  //각 지점 풍향(애로우) 그리기, 인포윈도우
   data.확산경로.forEach((p, idx) => {
     if(idx === 0) return;
     new kakao.maps.Polyline({
@@ -303,41 +323,53 @@ window.drawWildfireRoute = function (region, date) {
       </div>`
     }).open(map);
   });
-//   resetMapTimer();
-// }
-// ④ 5분 후 안내문구 자동 복귀
-// function resetMapTimer() {
   if (mapTimer) clearTimeout(mapTimer);
   mapTimer = setTimeout(resetMapToGuide, 5*60*1000);
-}
-// 최초엔 안내문구
-// resetMapToGuide();
+});
+};
 
-//드롭다운 등 이벤트 핸들러는 window에 부착!
-// ⑤ 드롭다운에서 시군 클릭 시 showKakaoMap(region) 호출!
-window.toggleDropdown = function() {
-  document.querySelector('#region-dropdown .dropdown-list').classList.toggle('open');
-};
-//dropdown-selected span').textContent = el.textContent;이게있어야 텍스트span만바뀌고 역삼각형아이콘이 사라지고있음
+ // 초기 안내문구
+  // resetMapToGuide();
+
+
+// 드롭다운 등 이벤트 핸들러는 window에 부착
+// 드롭다운 아이템 선택 시
 window.selectRegion = function(el) {
-  document.querySelector('#region-dropdown .dropdown-selected span').textContent = el.textContent;
-  document.querySelector('#region-dropdown .dropdown-list').classList.remove('open');
-  //지도연동 원하면 추가
-  window.showKakaoMap(el.textContent.trim()); 
+  const selectedSpan = document.querySelector('#region-dropdown .dropdown-selected span');
+  if (selectedSpan) selectedSpan.textContent = el.textContent;
+  const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
+  if (dropdownList) dropdownList.classList.remove('open');
+  // 지도 업데이트
+  window.showKakaoMap(el.textContent.trim());
 };
-//바깥 클릭시 닫기
-document.addEventListener('mousedown', function(e){
+
+//DOMContentLoaded 이벤트 내에서 클릭 이벤트 등록
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('페이지 다 로드됨! 이벤트 등록 시작!');
+  const dropdownSelected = document.querySelector('#region-dropdown .dropdown-selected');
+  console.log('dropdownSelected:', dropdownSelected);
+
+  if (dropdownSelected) {
+    dropdownSelected.addEventListener('click', () => {
+      console.log('드롭다운 클릭됨!');
+      const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
+      if (dropdownList) dropdownList.classList.toggle('open');
+    });
+  }
+});
+// 바깥 클릭 시 드롭다운 닫기
+document.addEventListener('mousedown', (e) => {
   const dd = document.getElementById('region-dropdown');
-  if(dd && !dd.contains(e.target))
-    dd.querySelector('.dropdown-list').classList.remove('open');
+  if (dd && !dd.contains(e.target)) {
+    const dropdownList = dd.querySelector('.dropdown-list');
+    if (dropdownList) dropdownList.classList.remove('open');
+  }
 });
 
-
-//시군 지역 선택 예측실행클릭(이벤트연동)시 지도+경로 렌더링
-//"예측 실행" 버튼에 연결 (테스트/실제 모두 사용)
-//(window 필요 없음)
+// "예측 실행" 버튼 클릭 이벤트 (지도+경로 렌더링)
 document.getElementById('run-predict').onclick = function() {
   const region = document.querySelector('#region-dropdown .dropdown-selected span').textContent.trim();
+  console.log('run-predict 클릭! 선택된 지역:', region);
   const prevDate = document.getElementById('prev-date').value;
   const predictDate = document.getElementById('predict-date').value;
   if (!region || region === "시군 지역을 선택하세요") {
@@ -348,51 +380,7 @@ document.getElementById('run-predict').onclick = function() {
     alert("산불일자(과거/예측)를 모두 선택하세요!");
     return;
   }
-  //예측 로직, 지도, 차트 등 연동!
- // 예측일자(혹은 둘 다!)로 경로 그리기
- // window로 접근!!
+  // 예측일자(혹은 둘 다!)로 경로 그리기
   window.drawWildfireRoute(region, predictDate);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-// 예시 경고
-  // alert(`실행!\n지역: ${region}\n과거: ${prevDate}\n예측: ${predictDate}`);
-
-
-
-
-
-//================================
-
-// → 우측 차트(Chart.js 연동)
-//예측실행 버튼 누르면 drawWildfireRoute(region, date) + drawSpeedChart(region, date) 모두 실행
-// function drawSpeedChart(region, date) {
-//   const data = wildfireData[region]?.[date]?.확산경로 || [];
-//   const ctx = document.getElementById('speedChart').getContext('2d');
-//   new Chart(ctx, {
-//     type: 'line',
-//     data: {
-//       labels: data.map(p=>p.time),
-//       datasets: [{
-//         label: '확산속도(m/h)',
-//         data: data.map(p=>p.속도),
-//         borderColor: '#21897e', fill: false
-//       }]
-//     }
-//   });
-// }
-
-
-
-
 });
