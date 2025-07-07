@@ -212,7 +212,7 @@ body {background: var(--color-body-bg);}
   pointer-events: none; /* 클릭 막음 */
 }
 .dropdown-list {
-  display: none;
+  display: none; /* 기본은 숨김 */
   position: absolute;
   top: 2.8rem;
   left: 0;
@@ -227,6 +227,7 @@ body {background: var(--color-body-bg);}
   list-style: none;
   box-shadow: 0 4px 18px #0002;
 }
+/* 열렸을 때는 보이도록 */
 .dropdown-list.open { display: block; }
 .dropdown-list li {
   padding: 0.7rem 0.2rem;
@@ -408,10 +409,10 @@ body {background: var(--color-body-bg);}
 }
 /*실제 맵이 렌더링될 사이즈 잡아주기*/
 #real-map, .map-box #real-map {
+  width: 100% !important; /*가로폭100% 꽉 채움*/
+  /*만약 화면이 너무 작거나 너무 커질 때를 대비*/
   min-height: 32vh !important;
   height: 38vh !important; /* (맵/그래픽/박스 모두 vh 단위!) */
-  width: 100% !important;
-  /*만약 화면이 너무 작거나 너무 커질 때를 대비*/
-  max-height: 55vh;
-  min-height: 28vh;
+  max-height: 55vh; /*최대 55vh 사이에서 38vh 기본*/
+  min-height: 28vh; /*최소높이*/
 }
