@@ -7,7 +7,7 @@
   <title>Seed - 확산예측 대시보드</title>
   <link rel="stylesheet" href="../assets/css/spread-dashboard.css" />
   <!-- KakaoMap 라이브러리 -->
-  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=239faa0b2540f6547070ca7acef93934&autoload=false"></script>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b737229386d781c1484c4431d4a76a1&autoload=false"></script>
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
   
@@ -48,13 +48,13 @@
               <li onclick="selectRegion(this)">양양군</li>
             </ul>
           </div>
-          <div class="center param-row">
-            <label class="calendar-label">
-              과거산불일자<br>
+          <!-- <div class="center param-row"> -->
+            <!-- <label class="calendar-label"> -->
+              <!-- 과거산불일자<br>
               <input type="date" id="prev-date" class="calendar-input" autocomplete="off">
             </label>
           </div>
-          <div class="center vs-text">VS</div>
+          <div class="center vs-text">VS</div> -->
           <div class="center param-row">
             <label class="calendar-label">
               예측산불일자<br>
@@ -70,23 +70,22 @@
         <div class="panel-box data-table">
           <h4 class="center">DATA</h4>
           <table>
-            <tr><th>항목</th><th>과거일자</th><th>예측일자</th></tr>
-            <tr><td>평균기온</td><td id="d1-t">25</td><td id="d2-t">26</td></tr>
-            <tr><td>상대습도</td><td id="d1-h">42</td><td id="d2-h">45</td></tr>
-            <tr><td>실효습도</td><td id="d1-h">42</td><td id="d2-h">45</td></tr>
-            <tr><td>풍속</td><td id="d1-w">3.2</td><td id="d2-w">4.1</td></tr>
-            <tr><td>최대풍속</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>            
-            <tr><td>풍향</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>
-            <tr><td>강수량</td><td id="d1-r">0</td><td id="d2-r">2</td></tr>
-            <tr><td>무강수일수</td><td id="d1-aw">3.7</td><td id="d2-aw">4.0</td></tr>
-            <tr><td>누적산불수</td><td id="d1-c">1</td><td id="d2-c">2</td></tr>
-            <tr><td>확산거리(m)</td><td id="d1-dist">650m</td><td id="d2-dist">780m</td></tr>
-            <tr><td>확산속도(m/h)</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
-            <tr><td>사면방향</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
-            <tr><td>고도(DEM)</td><td id="d1-s">350</td><td id="d2-s">410</td></tr>
-            <tr><td>식생(NDVI)</td><td id="d1-s">0.71</td><td id="d2-s">0.77</td></tr>
-            <tr><td>활엽수</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
-            <tr><td>혼효림</td><td id="d1-s">120</td><td id="d2-s">143</td></tr>
+            <tr><th>항목</th><th>예측일자</th></tr>
+            <tr><td>평균기온</td><td id="d2-t">26</td></tr>
+            <tr><td>상대습도</td><td id="d2-h">45</td></tr>
+            <tr><td>실효습도</td><td id="d2-h">45</td></tr>
+            <tr><td>풍속</td><td id="d2-w">4.1</td></tr>
+            <tr><td>최대풍속</td><td id="d2-aw">4.0</td></tr>            
+            <tr><td>풍향</td><td id="d2-aw">4.0</td></tr>
+            <tr><td>강수량</td><td id="d2-r">2</td></tr>
+            <tr><td>무강수일수</td><td id="d2-aw">4.0</td></tr>
+            <tr><td>누적산불수</td><td id="d2-c">2</td></tr>
+            <tr><td>확산거리(m)</td><td id="d2-dist">780m</td></tr>
+            <tr><td>확산속도(m/h)</td><td id="d2-s">143</td></tr>
+            <tr><td>사면방향</td><td id="d2-s">143</td></tr>
+            <tr><td>고도(DEM)</td><td id="d2-s">0.77</td></tr>
+            <tr><td>활엽수</td><td id="d2-s">143</td></tr>
+            <tr><td>혼효림</td><td id="d2-s">143</td></tr>
           </table>
         </div>
 
