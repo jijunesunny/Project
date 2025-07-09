@@ -410,7 +410,7 @@ body {background: var(--color-body-bg);}
 #real-map, .map-box #real-map {
   width: 100% !important; /*가로폭100% 꽉 채움*/
   /*만약 화면이 너무 작거나 너무 커질 때를 대비*/
-  min-height: 32vh !important; /*최소높이*/
-  height: 38vh !important; /* (맵/그래픽/박스 모두 vh 단위!) */
+  min-height: 38vh !important; /*최소높이*/
+  height: 100% !important; /* (맵박스41vh/그래픽/박스 모두 vh 단위!) */
   max-height: 55vh; /*최대 55vh 사이에서 38vh 기본*/
 }
