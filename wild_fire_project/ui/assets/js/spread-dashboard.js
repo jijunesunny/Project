@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //2025.07.08 오후 5:30맵만 뜨면됨
 //../assets/js/spread-dashboard.js
 //자바스크립스안에서 const (변경 없는 변수), let (변경 가능한 변수)
@@ -252,6 +253,19 @@ function resetMapTimer() {
   //실제데이터만 wildfireData에 넣으면 끝
   // ----------- [여기부터 드롭다운/맵 유지] ---------------------
 //  지역 위도경도 데이터
+=======
+// spread-dashboard.js
+// 산불 확산 예측 대시보드 
+// 2025.07.09 기준 최신 수정본
+// 주요 기능: 카카오맵 지도 초기화 및 조작, 지역 드롭다운, 날짜선택, 예측 실행, 댓글 기능
+// === 전역 변수 선언 ===
+let kakaoMapReady = false;  // 카카오맵 API 로딩 완료 여부 플래그
+let map = null;             // 카카오맵 지도 객체
+let mapMarker = null;       // 현재 지도에 표시된 마커 객체
+let mapTimer = null;        // 5분 후 지도 초기화 타이머
+
+// 지역별 위도경도 좌표 데이터 (강원도 각 시군)
+>>>>>>> 647dd90f3c751a859b16ef1a062fd62d8c318c31
 const regionCenters = {
   "춘천시": [37.8813, 127.7298],
   "원주시": [37.3422, 127.9201],
@@ -273,45 +287,298 @@ const regionCenters = {
   "양양군": [38.0755, 128.6168]
 };
 
-//지금은 테스트용 예측 경로 가상 데이터 (춘천시  예시)
-//과거/예측 일자별 산불 확산 데이터
+// 테스트용 산불 확산 데이터 샘플 (춘천시 예시)
 const wildfireData = {
-   "춘천시": {
-  //   "2025-07-05": {
-  //     "확산경로": [
-      //   { time: "14:00", lat: 37.8813, lng: 127.7298, 거리: 0, 속도: 0, 풍향: 110 },
-      //   { time: "14:20", lat: 37.8830, lng: 127.7325, 거리: 250, 속도: 45, 풍향: 125 },
-      //   { time: "14:40", lat: 37.8852, lng: 127.7350, 거리: 510, 속도: 50, 풍향: 130 }
-      // ],
-      // "속도등급": 2, "누적산불수": 1
-    // },
+  "춘천시": {
     "2025-07-06": {
       "확산경로": [
         { time: "14:00", lat: 37.8813, lng: 127.7298, 거리: 0, 속도: 0, 풍향: 90 },
         { time: "14:20", lat: 37.8842, lng: 127.7335, 거리: 270, 속도: 47, 풍향: 110 },
         { time: "14:40", lat: 37.8872, lng: 127.7370, 거리: 580, 속도: 54, 풍향: 130 }
       ],
-      "속도등급": 3, "누적산불수": 2
+      "속도등급": 3,
+      "누적산불수": 2
     }
+<<<<<<< HEAD
 }
   };
   // 춘천시내용삭제하고 실제 데이터도 이 구조에 맞춰 넣으면 됨!
+=======
+  }
+};
+>>>>>>> 647dd90f3c751a859b16ef1a062fd62d8c318c31
 
+// --- DOMContentLoaded 이벤트: UI 초기화와 이벤트 등록 ---
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('페이지 다 로드됨! 이벤트 등록 시작!');
 
+  // 지역 드롭다운 클릭 시 리스트 열기/닫기
+  const dropdownSelected = document.querySelector('#region-dropdown .dropdown-selected');
+  if (dropdownSelected) {
+    dropdownSelected.addEventListener('click', () => {
+      const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
+      if (dropdownList) dropdownList.classList.toggle('open');
+    });
+  } else {
+    console.error('드롭다운 선택자 못 찾음!');
+  }
 
-//========================================================
-//=============================================================
-  // ========== 댓글 데이터 ================
-  function initComments() {
+  // 바깥 클릭 시 드롭다운 닫기
+  document.addEventListener('mousedown', (e) => {
+    const dd = document.getElementById('region-dropdown');
+    if (dd && !dd.contains(e.target)) {
+      const dropdownList = dd.querySelector('.dropdown-list');
+      if (dropdownList) dropdownList.classList.remove('open');
+    }
+  });
+
+  // 댓글 초기화 및 렌더링
+  initComments();
+
+  // 예측 실행 버튼 이벤트 등록
+  const runPredictBtn = document.getElementById('run-predict');
+  if (runPredictBtn) {
+    runPredictBtn.addEventListener('click', () => {
+      // 드롭다운에서 선택된 지역 텍스트
+      const region = document.querySelector('#region-dropdown .dropdown-selected span').textContent.trim();
+      // 날짜 선택 input 값
+      const predictDate = document.getElementById('predict-date').value;
+
+      // 지역 선택 유효성 검사
+      if (!region || region === "시군 지역을 선택하세요") {
+        alert("시군 지역을 선택하세요!");
+        return;
+      }
+      // 날짜 선택 유효성 검사
+      if (!predictDate) {
+        alert("산불예측일자를 선택하세요!");
+        return;
+      }
+
+      // 카카오맵 API 준비 여부 확인 후 예측 경로 그리기 호출
+      if (kakaoMapReady && typeof window.drawWildfireRoute === 'function') {
+        window.drawWildfireRoute(region, predictDate);
+      } else {
+        alert('카카오맵 API가 아직 준비되지 않았습니다. 1');
+      }
+    });
+  } else {
+    console.error('예측 실행 버튼 못 찾음!');
+  }
+
+  // 초기 안내 문구 표시 (지도 영역 빈 상태)
+  resetMapToGuide();
+});
+
+// --- 카카오맵 API 비동기 로드 ---
+// API가 정상 로드되면 초기 지도 생성 (춘천시 기본)
+// 그리고 kakaoMapReady 플래그 true로 세팅
+kakao.maps.load(() => {
+  console.log('카카오맵 API 정상 로드');
+  kakaoMapReady = true;
+
+  // 최초 지도 띄우기 (기본지역: 춘천시)
+  showKakaoMap("춘천시");
+});
+
+// --- 전역 함수: 지역 선택 시 호출되는 함수 ---
+// UI 드롭다운 클릭 시 선택 지역 표시 및 지도 이동/마커 표시
+window.selectRegion = function(el) {
+  const selectedSpan = document.querySelector('#region-dropdown .dropdown-selected span');
+  if (selectedSpan) selectedSpan.textContent = el.textContent;
+
+  const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
+  if (dropdownList) dropdownList.classList.remove('open');
+
+  // 카카오맵 API 준비되었으면 해당 지역으로 지도 업데이트
+  if (kakaoMapReady && typeof window.showKakaoMap === 'function') {
+    window.showKakaoMap(el.textContent.trim());
+  } else {
+    alert('카카오맵 API가 아직 준비되지 않았습니다. 2');
+  }
+};
+
+// --- 카카오맵 지도 생성 및 마커 표시 함수 ---
+window.showKakaoMap = function(region) {
+  if (!kakaoMapReady) {
+    alert('카카오맵 API가 아직 로드되지 않았습니다. 3');
+    return;
+  }
+
+  const coord = regionCenters[region];
+  if (!coord) return;
+
+  // 지도 객체가 없으면 새로 생성
+  if (!map) {
+    const mapDiv = document.getElementById('map-area');
+    map = new kakao.maps.Map(mapDiv, {
+      center: new kakao.maps.LatLng(coord[0], coord[1]),
+      level: 7,
+      mapTypeId: kakao.maps.MapTypeId.ROADMAP
+    });
+  } else {
+    // 기존 지도 중심 위치 변경
+    map.setCenter(new kakao.maps.LatLng(coord[0], coord[1]));
+  }
+
+  // 기존 마커 제거
+  if (mapMarker) {
+    mapMarker.setMap(null);
+    mapMarker = null;
+  }
+
+  // 새로운 마커 생성 및 지도에 표시
+  mapMarker = new kakao.maps.Marker({
+    position: new kakao.maps.LatLng(coord[0], coord[1]),
+    map: map,
+    title: region
+  });
+
+  // 5분 후 초기 안내 문구로 리셋하는 타이머 설정
+  resetMapTimer();
+};
+
+// --- 예측 실행 후 산불 확산 경로 지도에 그리기 ---
+// 지역, 날짜를 받아 wildfireData에서 경로정보 가져와 지도에 경로, 마커, 정보창 표시
+window.drawWildfireRoute = function(region, date) {
+  if (!kakaoMapReady) {
+    alert('카카오맵 API가 아직 로드되지 않았습니다. 4');
+    return;
+  }
+
+  // 날짜 인자는 문자열이어야 하며 배열 등은 불가
+  if (typeof date !== 'string') {
+    alert('날짜 형식이 올바르지 않습니다.');
+    resetMapToGuide();
+    return;
+  }
+
+  const data = wildfireData[region]?.[date];
+  if (!data || !data.확산경로) {
+    resetMapToGuide();
+    return;
+  }
+
+  // 지도 표시용 div가 없으면 생성
+  const mapDiv = ensureRealMapDiv();
+
+  // 지도 생성 (지도 중심을 확산 경로 첫 지점으로 설정)
+  map = new kakao.maps.Map(mapDiv, {
+    center: new kakao.maps.LatLng(data.확산경로[0].lat, data.확산경로[0].lng),
+    level: 7,
+    mapTypeId: kakao.maps.MapTypeId.ROADMAP
+  });
+
+  // 확산 경로를 잇는 폴리라인 그리기 ((확산방향으로 그어짐))
+  const linePath = data.확산경로.map(p => new kakao.maps.LatLng(p.lat, p.lng));
+  const polyline = new kakao.maps.Polyline({
+    map: map,
+    path: linePath,
+    strokeWeight: 5,  // 선 굵기
+    strokeColor: '#ff6347', // 토마토색
+    strokeOpacity: 0.7   // 좀 더 불투명하게
+  });
+
+  // 시작 지점 마커 (빨간색 불꽃 아이콘)
+  const start = data.확산경로[0];
+  new kakao.maps.Marker({
+    map: map,
+    position: new kakao.maps.LatLng(start.lat, start.lng),
+    image: new kakao.maps.MarkerImage(
+      'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+      new kakao.maps.Size(24, 36)
+    )
+  });
+
+  // 종료 지점 마커 (파란색 불꽃 아이콘)
+  const end = data.확산경로[data.확산경로.length - 1];
+  new kakao.maps.Marker({
+    map: map,
+    position: new kakao.maps.LatLng(end.lat, end.lng),
+    image: new kakao.maps.MarkerImage(
+      'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStarBlue.png',
+      new kakao.maps.Size(24, 36)
+    )
+  });
+
+  // 구간별 풍향(화살표) 표시 및 정보창(InfoWindow) 생성
+  data.확산경로.forEach((p, idx) => {
+    if (idx === 0) return; // 첫 지점은 스킵
+
+    // 구간 선 그리기
+    new kakao.maps.Polyline({
+      map: map,
+      path: [
+        new kakao.maps.LatLng(data.확산경로[idx - 1].lat, data.확산경로[idx - 1].lng),
+        new kakao.maps.LatLng(p.lat, p.lng)
+      ],
+      strokeWeight: 3,
+      strokeColor: '#21897e',
+      strokeOpacity: 0.9
+    });
+
+    // 정보창 생성 및 오픈 ((좌표정보창))
+    new kakao.maps.InfoWindow({
+      position: new kakao.maps.LatLng(p.lat, p.lng),
+      content: `<div style="font-size:11px;color:#21897e;">
+        ${p.time}<br>거리:${p.거리}m<br>속도:${p.속도}m/h
+      </div>`
+    }).open(map);
+  });
+
+  // 5분 후 안내문구 자동 복귀 타이머 설정
+  if (mapTimer) clearTimeout(mapTimer);
+  mapTimer = setTimeout(resetMapToGuide, 5 * 60 * 1000);
+};
+
+// --- 지도 초기 안내문구 함수 ---
+// #map-area 영역에 예측 실행 전 기본 메시지 출력
+function resetMapToGuide() {
+  const mapArea = document.getElementById('map-area');
+  if (mapArea) {
+    mapArea.innerHTML = `
+      <div class="placeholder-graphic">
+        <i class="fas fa-map-marked-alt"></i>
+        <div class="ph-text">
+          예측실행 결과를 여기에서 <b>KakaoMap</b>으로<br>확인하실 수 있습니다.
+        </div>
+      </div>
+    `;
+  }
+  map = null;
+}
+
+// --- 지도 div가 없으면 생성 및 반환 ---
+function ensureRealMapDiv() {
+  const mapArea = document.getElementById('map-area');
+  if (!mapArea) return null;
+
+  let mapDiv = document.getElementById('real-map');
+  if (!mapDiv) {
+    mapArea.innerHTML = `<div id="real-map" style="width:100%;height:40vh"></div>`;
+    mapDiv = document.getElementById('real-map');
+  }
+  return mapDiv;
+}
+
+// --- 5분 후 지도 초기화 타이머 리셋 함수 ---
+function resetMapTimer() {
+  if (mapTimer) clearTimeout(mapTimer);
+  mapTimer = setTimeout(resetMapToGuide, 5 * 60 * 1000);
+}
+
+// --- 댓글 관련 기능 ---
+// 댓글 데이터 초기화 및 렌더링 함수
+function initComments() {
   let comments = [];
   try {
     comments = JSON.parse(localStorage.getItem('seed_comments_json')) || [
-      { id: 1, text: "좋은 예측입니다!", replies: [ { id: 11, text: "동의합니다.", replies: [] } ] },
+      { id: 1, text: "좋은 예측입니다!", replies: [{ id: 11, text: "동의합니다.", replies: [] }] },
       { id: 2, text: "지도 확대기능까지있고~와우", replies: [] }
     ];
   } catch (e) {
     comments = [
-      { id: 1, text: "좋은 예측입니다!", replies: [ { id: 11, text: "동의합니다.", replies: [] } ] },
+      { id: 1, text: "좋은 예측입니다!", replies: [{ id: 11, text: "동의합니다.", replies: [] }] },
       { id: 2, text: "지도 확대기능까지있고~와우", replies: [] }
     ];
   }
@@ -320,12 +587,12 @@ const wildfireData = {
   const commentForm = document.getElementById('comment-form');
   let replyOpen = null; // { ids: [부모id,...,나의id] }
 
-  // 저장
+  // 댓글 저장 함수 (localStorage)
   function saveComments() {
     localStorage.setItem('seed_comments_json', JSON.stringify(comments));
   }
 
-  // 무한 렌더링 (재귀)
+  // 무한 대댓글 렌더링 (재귀)
   function renderReplies(replies, parentIds) {
     let html = '';
     replies.forEach(r => {
@@ -420,7 +687,7 @@ const wildfireData = {
     replyOpen = null;
   };
 
-  // 댓글 등록
+  // 댓글 등록 폼 제출 이벤트
   commentForm.onsubmit = e => {
     e.preventDefault();
     const txt = commentForm.comment.value.trim();
@@ -432,14 +699,17 @@ const wildfireData = {
     }
   };
 
-  // 답글 입력창 바깥 클릭시 닫기
+  // 답글 입력창 외부 클릭시 닫기
   document.addEventListener('mousedown', function (e) {
     if (!e.target.closest('.reply-form') && !e.target.classList.contains('reply-btn')) {
       document.querySelectorAll('.reply-form').forEach(f => f.innerHTML = '');
       replyOpen = null;
     }
   });
-//초기 댓글 렌더링
-  renderComments();
-}
 
+<<<<<<< HEAD
+=======
+  // 초기 댓글 렌더링
+  renderComments();
+};
+>>>>>>> 647dd90f3c751a859b16ef1a062fd62d8c318c31
