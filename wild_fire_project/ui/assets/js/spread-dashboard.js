@@ -1,7 +1,5 @@
 //2025.07.08 오후 5:30맵만 뜨면됨
 //../assets/js/spread-dashboard.js
-
-//../assets/js/spread-dashboard.js
 //자바스크립스안에서 const (변경 없는 변수), let (변경 가능한 변수)
 // 1. DOMContentLoaded 이벤트에서 모든 UI 이벤트 연결 및 댓글 초기화
 // 2. 지역 드롭다운 이벤트 함수 (전역에 노출)
@@ -58,7 +56,7 @@ const runPredictBtn = document.getElementById('run-predict');
   if (kakaoMapReady && typeof window.drawWildfireRoute === 'function') {
       window.drawWildfireRoute(region, predictDate);
     } else {
-      alert('카카오맵 API가 아직 준비되지 않았습니다. 통과 1 ');
+      alert('카카오맵 API가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.');
     }
   });
 } else {
@@ -85,7 +83,7 @@ const runPredictBtn = document.getElementById('run-predict');
   if (kakaoMapReady && typeof window.showKakaoMap === 'function') {
     window.showKakaoMap(el.textContent.trim());
   } else {
-    alert('카카오맵 API가 아직 준비되지 않았습니다. 2');
+    alert('카카오맵 API가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.');
   }
 };
 
@@ -107,7 +105,7 @@ kakao.maps.load(() => {
 // showKakaoMap 함수 수정: kakao.maps.load() 호출 제거 후, kakaoMapReady 체크 후 바로 지도 생성
 window.showKakaoMap = function(region) {
   if (!kakaoMapReady) {
-    alert('카카오맵 API가 아직 로드되지 않았습니다. 3');
+    alert('카카오맵 API가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
     return;
   }
   const coord = regionCenters[region];
@@ -130,7 +128,7 @@ window.showKakaoMap = function(region) {
 //산불확산을 지도에 경로, 마커, 툴팁 그리기
 window.drawWildfireRoute = function(region, date) {
     if (!kakaoMapReady) {
-      alert('카카오맵 API가 아직 로드되지 않았습니다.4');
+      alert('카카오맵 API가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
       return;
     }
     // date는 단일 문자열이어야 하므로 배열이나 객체 체크 금지
@@ -295,7 +293,7 @@ const wildfireData = {
       ],
       "속도등급": 3, "누적산불수": 2
     }
-  }
+}
   };
   // 춘천시내용삭제하고 실제 데이터도 이 구조에 맞춰 넣으면 됨!
 
@@ -445,11 +443,3 @@ const wildfireData = {
   renderComments();
 }
 
-console.log('kakaoMapReady:', kakaoMapReady);
-console.log('showKakaoMap 타입:', typeof window.showKakaoMap);
-console.log('선택된 지역:', el.textContent.trim());
-if (kakaoMapReady && typeof window.showKakaoMap === 'function') {
-  window.showKakaoMap(el.textContent.trim());
-} else {
-  alert('카카오맵 API가 아직 준비되지 않았습니다. 2');
-}
