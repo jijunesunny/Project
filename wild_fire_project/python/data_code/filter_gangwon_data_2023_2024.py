@@ -2,6 +2,8 @@ import json
 import os
 import pandas as pd
 
+#최종 강원이전산불데이터
+#2023-2024 전국산불데이터에서 강원지역만 추출
 # 원시 JSON 파일 경로 (data/raw 폴더 기준)
 raw_files = [
     './data/raw/sanbul_stats_20231020.json',
@@ -18,7 +20,7 @@ def load_and_filter(file_path):
         data = json.load(f)
     records = data.get('data')
     if records is None:
-        print(f"⚠️ 'data' 키가 없어 {file_path} 처리 불가")
+        print(f" 'data' 키가 없어 {file_path} 처리 불가")
         return pd.DataFrame()
     df = pd.DataFrame(records)
     return df[df['발생장소_관서'] == '강원']
