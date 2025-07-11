@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 0,
+          "hm10m": 81.9,
+          "hm2m": 83.2,
+          "localarea": 10,
+          "obsid": 2001,
+          "obsname": "춘천 연엽산",
+          "pa": 936.1,
+          "rn": 0,
+          "tm": "2021-06-30 18:09",
+          "tm10m": 22.4,
+          "tm2m": 22.6,
+          "ts": 26.6,
+          "wd10m": 9,
+          "wd10mstr": "N",
+          "wd2m": 0,
+          "wd2mstr": "N",
+          "ws10m": 0.9,
+          "ws2m": 0.1
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
