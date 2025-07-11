@@ -1,12 +1,28 @@
 // spread-dashboard.js
 // 산불 확산 예측 대시보드 JS 스크립트
-// 2025.07.09 기준 최신 수정본
+// 2025.07.11 기준 최신 수정본
+
 
 // === 전역 변수 선언 ===
 let kakaoMapReady = false;  // 카카오맵 API 로딩 완료 여부 플래그
 let map = null;             // 카카오맵 지도 객체
 let mapMarker = null;       // 현재 지도에 표시된 마커 객체
 let mapTimer = null;        // 5분 후 지도 초기화 타이머
+let fireMarkerImage = null; // 전역변수로 미리 선언
+
+kakao.maps.load(() => {
+  console.log('카카오맵 API 정상 로드');
+  kakaoMapReady = true;
+
+  // 여기서 마커 이미지 생성
+  fireMarkerImage = new kakao.maps.MarkerImage(
+    'https://cdn-icons-png.flaticon.com/512/482/482545.png',
+    new kakao.maps.Size(32, 32)
+  );
+
+  // 최초 지도 띄우기 (기본지역: 춘천시)
+  showKakaoMap("춘천시");
+});
 
 // 지역별 위도경도 좌표 데이터 (강원도 각 시군)
 const regionCenters = {
@@ -37,7 +53,7 @@ const wildfireData = {
       "확산경로": [
         { time: "14:00", lat: 37.8813, lng: 127.7298, 거리: 0, 속도: 0, 풍향: 90 },
         { time: "14:20", lat: 37.8842, lng: 127.7335, 거리: 270, 속도: 47, 풍향: 110 },
-        { time: "14:40", lat: 37.8872, lng: 127.7370, 거리: 580, 속도: 54, 풍향: 130 }
+        { time: "16:40", lat: 37.8872, lng: 127.7370, 거리: 800, 속도: 104, 풍향: 130 }
       ],
       "속도등급": 3,
       "누적산불수": 2
@@ -151,7 +167,7 @@ window.showKakaoMap = function(region) {
     map = new kakao.maps.Map(mapDiv, {
       center: new kakao.maps.LatLng(coord[0], coord[1]),
       level: 7,
-      mapTypeId: kakao.maps.MapTypeId.ROADMAP  // 기존 TERRAIN 대신 ROADMAP
+      mapTypeId: kakao.maps.MapTypeId.ROADMAP
     });
   } else {
     // 기존 지도 중심 위치 변경
@@ -164,12 +180,26 @@ window.showKakaoMap = function(region) {
     mapMarker = null;
   }
 
-  // 새로운 마커 생성 및 지도에 표시
-  mapMarker = new kakao.maps.Marker({
-    position: new kakao.maps.LatLng(coord[0], coord[1]),
+  //마커 칼라 지도 생성 
+  const fireMarkerImage = new kakao.maps.MarkerImage(
+  'https://cdn-icons-png.flaticon.com/512/482/482545.png', // 불모양 아이콘 URL
+  new kakao.maps.Size(32, 32) // 크기 조절
+);
+
+  new kakao.maps.Marker({
     map: map,
-    title: region
-  });
+    position: new kakao.maps.LatLng(start.lat, start.lng),
+    image: fireMarkerImage
+});
+
+
+
+  // 새로운 마커 생성 및 지도에 표시
+  // mapMarker = new kakao.maps.Marker({
+  //   position: new kakao.maps.LatLng(coord[0], coord[1]),
+  //   map: map,
+  //   title: region
+  // });
 
   // 5분 후 초기 안내 문구로 리셋하는 타이머 설정
   resetMapTimer();
@@ -203,7 +233,7 @@ window.drawWildfireRoute = function(region, date) {
   map = new kakao.maps.Map(mapDiv, {
     center: new kakao.maps.LatLng(data.확산경로[0].lat, data.확산경로[0].lng),
     level: 7,
-    mapTypeId: kakao.maps.MapTypeId.ROADMAP  // 기존 TERRAIN 대신 ROADMAP
+    mapTypeId: kakao.maps.MapTypeId.ROADMAP
   });
 
   // 확산 경로를 잇는 폴리라인 그리기
@@ -254,16 +284,26 @@ window.drawWildfireRoute = function(region, date) {
       strokeOpacity: 0.9
     });
 
-    // 정보창 생성 및 오픈
+    // 정보창 생성 및 오픈 >>>>>칼라 꾸밀수 있다~속도거리창~~~~~
     new kakao.maps.InfoWindow({
-  position: new kakao.maps.LatLng(p.lat, p.lng),
-  content: `<div style="font-size:11px; color:${idx % 2 === 0 ? '#ff6347' : '#21897e'};">
-    시간: ${p.time}<br>
-    거리: ${p.거리}m<br>
-    속도: ${p.속도}m/h
-  </div>`
-}).open(map);
-
+      position: new kakao.maps.LatLng(p.lat, p.lng),
+      content: `
+      <div style="
+        padding: 8px 8px; 
+        border-radius: 0px; 
+        background: white; 
+        color: rgba(255, 99, 71, 0.9); 
+        font-weight: bold; 
+        box-shadow: white;
+        font-size: 12px;
+        max-width: 150px;
+        ">
+        시간:${p.time}<br>
+        거리:${p.거리}m<br>
+        속도:${p.속도}m/h
+      </div>`
+    }).open(map);
+  });
 
   // 5분 후 안내문구 자동 복귀 타이머 설정
   if (mapTimer) clearTimeout(mapTimer);
@@ -296,7 +336,7 @@ function ensureRealMapDiv() {
   let mapDiv = document.getElementById('real-map');
   if (!mapDiv) {
     // 높이 38vh 이상, 최소 300px 확보 (CSS 강제)
-    mapArea.innerHTML = `<div id="real-map" style="width:100%; height:41vh; min-height:300px;"></div>`;
+    mapArea.innerHTML = `<div id="real-map" style="width:100%; height:38vh; min-height:300px;"></div>`;
     mapDiv = document.getElementById('real-map');
   }
   return mapDiv;
@@ -403,7 +443,7 @@ function initComments() {
     });
   }
 
-  // 답글저장 (ids: "1-11-99" 처럼 경로)
+  // 답글 저장 (ids: "1-11-99" 처럼 경로)
   window.submitReply = function(idsStr) {
     const ids = idsStr.split('-').map(Number);
     const formId = `reply-form-${ids.join('-')}`;
