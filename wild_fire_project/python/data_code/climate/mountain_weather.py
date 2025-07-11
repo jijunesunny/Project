@@ -1,7 +1,7 @@
 import requests
 import json
 import os
-
+#"rn": "-","-">실제 측정값이 없거나, 결측값(missing data)을 의미NAN,결측치 보간(interpolation), 삭제, 또는 별도 표시
 #산림청 국립산림과학원_산악기상정보//서비스 유형: REST API, GET 방식
 # API 기본 정보
 BASE_URL = "http://apis.data.go.kr/1400377/mtweather/mountListSearch"
