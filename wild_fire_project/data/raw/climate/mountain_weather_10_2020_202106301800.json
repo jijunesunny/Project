@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 4.1,
+          "hm10m": 99.7,
+          "hm2m": 100,
+          "localarea": 10,
+          "obsid": 2020,
+          "obsname": "평창 중왕산",
+          "pa": 893.3,
+          "rn": 6.5,
+          "tm": "2021-06-30 18:00",
+          "tm10m": 16.2,
+          "tm2m": 16.4,
+          "ts": 21.7,
+          "wd10m": 82.2,
+          "wd10mstr": "E",
+          "wd2m": 62.2,
+          "wd2mstr": "ENE",
+          "ws10m": 1.6,
+          "ws2m": 0.6
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

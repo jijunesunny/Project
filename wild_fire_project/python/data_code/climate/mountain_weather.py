@@ -7,11 +7,10 @@ import os
 BASE_URL = "http://apis.data.go.kr/1400377/mtweather/mountListSearch"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 
-save_dir = "./data/raw/climate"
+save_dir = ".wild_fire_project/data/raw/climate"
 os.makedirs(save_dir, exist_ok=True)
 
 num_per_page = 100  # 한 페이지에 100개 데이터 요청
-
 page_no = 1
 all_items = []
 

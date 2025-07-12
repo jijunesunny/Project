@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 70.8,
+          "hm10m": 99.7,
+          "hm2m": 99.9,
+          "localarea": 10,
+          "obsid": 2015,
+          "obsname": "정선 백석봉",
+          "pa": 931.6,
+          "rn": 69.5,
+          "tm": "2022-06-30 18:00",
+          "tm10m": 20.7,
+          "tm2m": 20.5,
+          "ts": 22.7,
+          "wd10m": 217.7,
+          "wd10mstr": "SW",
+          "wd2m": 278.5,
+          "wd2mstr": "W",
+          "ws10m": 0.5,
+          "ws2m": 0.6
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

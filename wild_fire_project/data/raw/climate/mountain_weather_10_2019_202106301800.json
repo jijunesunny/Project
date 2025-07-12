@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 22,
+          "hm10m": 98.6,
+          "hm2m": 95.8,
+          "localarea": 10,
+          "obsid": 2019,
+          "obsname": "평창 백석산",
+          "pa": 875.6,
+          "rn": 21.5,
+          "tm": "2021-06-30 18:00",
+          "tm10m": 17.2,
+          "tm2m": 16.5,
+          "ts": 18.9,
+          "wd10m": 244.3,
+          "wd10mstr": "WSW",
+          "wd2m": 254.9,
+          "wd2mstr": "WSW",
+          "ws10m": 0.5,
+          "ws2m": 0.1
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

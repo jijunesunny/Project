@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 25,
+          "hm10m": 99.2,
+          "hm2m": 99.8,
+          "localarea": 10,
+          "obsid": 2021,
+          "obsname": "화천 두류산",
+          "pa": 900.8,
+          "rn": 24.5,
+          "tm": "2020-06-30 18:00",
+          "tm10m": 13.4,
+          "tm2m": 13.4,
+          "ts": 15.6,
+          "wd10m": 64.4,
+          "wd10mstr": "ENE",
+          "wd2m": 38,
+          "wd2mstr": "NE",
+          "ws10m": 3.3,
+          "ws2m": 1
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

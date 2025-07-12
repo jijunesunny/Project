@@ -8,7 +8,7 @@ ENDPOINT = "/15121380/v1/uddi:4725e545-b4b6-4f85-b325-a281a4f8188c"  # 2023.10.2
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 
 # 2. 데이터를 저장할 폴더와 파일명 지정
-DATA_DIR = "./data/raw/fetch"                # 원시 데이터를 저장할 폴더 경로
+DATA_DIR = ".wild_fire_project/data/raw/fetch"                # 원시 데이터를 저장할 폴더 경로
 FILE_NAME = "sanbul_stats_20231020.json"    # 저장할 JSON 파일명
 
 # 3. 저장할 폴더가 없으면 새로 생성

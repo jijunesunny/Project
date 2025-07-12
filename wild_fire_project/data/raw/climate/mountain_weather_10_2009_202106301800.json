@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 0.5,
+          "hm10m": 96.1,
+          "hm2m": 98.8,
+          "localarea": 10,
+          "obsid": 2009,
+          "obsname": "양구 봉화산",
+          "pa": 933.2,
+          "rn": 0.5,
+          "tm": "2021-06-30 18:00",
+          "tm10m": 18.5,
+          "tm2m": 18.8,
+          "ts": 22.2,
+          "wd10m": 78.2,
+          "wd10mstr": "ENE",
+          "wd2m": 50.9,
+          "wd2mstr": "NE",
+          "ws10m": 0.2,
+          "ws2m": 0
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
