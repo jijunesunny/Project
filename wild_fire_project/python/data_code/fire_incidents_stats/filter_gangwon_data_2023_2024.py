@@ -6,8 +6,8 @@ import pandas as pd
 #2023-2024 전국산불데이터에서 강원지역만 추출
 # 원시 JSON 파일 경로 (data/raw 폴더 기준)
 raw_files = [
-    '.wild_fire_project/data/raw/sanbul_stats_20231020.json',
-    '.wild_fire_project/data/raw/sanbul_stats_20241016.json'
+    '../wild_fire_project/data/raw/sanbul_stats_20231020.json',
+    '../wild_fire_project/data/raw/sanbul_stats_20241016.json'
 ]
 
 # 전처리 데이터 저장 폴더 및 파일명

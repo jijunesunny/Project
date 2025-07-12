@@ -8,7 +8,7 @@ BASE_URL = "http://apis.data.go.kr/1400377/mtweather/mountListSearch"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 
 # 저장할 폴더 경로
-SAVE_DIR = "../wild_fire_project/data/raw/climate"
+SAVE_DIR = "../wild_fire_project/data/fetch/climate"
 os.makedirs(SAVE_DIR, exist_ok=True)  # 폴더 없으면 생성
 
 # 강원도 지역 코드 (워드문서 참고)
@@ -37,7 +37,7 @@ OBS_TIME_FORMAT = "%Y%m%d%H%M"  # API 요청에 맞는 시간 포맷
 
 def fetch_data(obsid: str, tm: str):
     """
-    특정 지점(obsid)과 관측시간(tm)에 대해 API 호출 후 데이터를 반환합니다.
+특정지점(obsid)과 관측시간(tm)에 대해 API 호출 후 데이터를 반환합니다.
     """
     params = {
         "ServiceKey": SERVICE_KEY,
@@ -81,9 +81,12 @@ def main():
 
         for obsid in OBS_IDS:
             print(f" 데이터 수집 중: 지점 {obsid}, 시간 {tm}")            
+#fetch_data() 함수>주어진 지점번호(obsid)와 시간(tm)으로 API 호출             
             data = fetch_data(obsid, tm)
             if data:
+#save_json() 함수>  받은 JSON 데이터를 지정된 폴더에 파일로 저장             
                 save_json(data, obsid, tm)
-
+#main() 함수>2011~2024년 매년 6월 30일 18시 데이터를 반복 호출해 수집
+#강원도 내 지정한 지점 리스트에 대해 모두 호출하고 저장
 if __name__ == "__main__":
     main()
