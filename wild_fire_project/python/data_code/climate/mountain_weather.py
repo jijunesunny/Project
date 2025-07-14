@@ -20,7 +20,9 @@ while True:
         "pageNo": page_no,
         "numOfRows": num_per_page,
         "_type": "json",
-        "localArea": "10",
+        "localArea": "1",
+        "obsid": "1910",
+        "tm": "202106301809" #  관측 시간 지정
     }
 
     response = requests.get(BASE_URL, params=params)
@@ -48,7 +50,7 @@ while True:
     page_no += 1
 
 # 전체 데이터를 JSON 파일로 저장
-file_path = os.path.join(save_dir, "mountain_weather_all.json")
+file_path = os.path.join(save_dir, "mountain_weather_all_202106301809.json")
 with open(file_path, "w", encoding="utf-8") as f:
     json.dump({"data": all_items}, f, ensure_ascii=False, indent=2)
 
