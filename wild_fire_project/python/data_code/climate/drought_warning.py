@@ -2,7 +2,7 @@ import requests
 import json
 import os
 
-#한국수자원공사의 정보 API
+#한국수자원공사의 정보 API 가뭄 지수, 이미지,표,그래프
 #1.'기상 가뭄예경보(drght_forecast)'
 BASE_URL = "http://apis.data.go.kr/B500001/drghtFrcstAlarmWeather/frcstInfoList"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="

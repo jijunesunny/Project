@@ -1,0 +1,39 @@
+
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "anldt": 20190810, 
+          "wetheratent": "[경기]광주시,군포시,성남시,수원시,시흥시,안산시,안성시,여주시,오산시,용인시,이천시,화성시,[경북]영주시,[충남]계룡시,당진시,보령시,서산시,예산군,청양군,태안군,[충북]음성군,제천시,진천군,충주시",
+          "wetheratent1m": "[경기]광주시,[충남]홍성군",
+          "wetheratent2m": "[경기]광주시",
+          "wetheratent3m": "-",
+          "wetherbndry": "[충남]홍성군",
+          "wetherbndry1m": "-",
+          "wetherbndry2m": "-",
+          "wetherbndry3m": "-",
+          "wetherintrst": "[경기]가평군,고양시,과천시,광명시,구리시,김포시,남양주시,동두천시,부천시,안양시,양주시,양평군,연천군,의왕시,의정부시,파주시,평택시,포천시,하남시,[경남]창녕군,[경북]봉화군,안동시,의성군,[광역]달성군,대전광역시,서울특별시,세종시,인천광역시,[전남]영광군,장성군,[전북]고창군,군산시,김제시,부안군,완주군,익산시,전주시,[충남]공주시,금산군,논산시,부여군,서천군,아산시,천안시,[충북]괴산군,단양군,보은군,영동군,옥천군,증평군,청주시",
+          "wetherintrst1m": "[경기]가평군,군포시,성남시,수원시,안산시,안성시,양평군,여주시,오산시,용인시,의왕시,이천시,하남시,화성시,[경북]영주시,[광역]대전광역시,인천광역시,[충남]계룡시,공주시,금산군,논산시,당진시,부여군,서산시,아산시,예산군,청양군,[충북]괴산군,단양군,음성군,제천시,진천군,충주시",
+          "wetherintrst2m": "[경기]가평군,군포시,성남시,수원시,안성시,양평군,여주시,오산시,용인시,이천시,화성시,[충남]계룡시,당진시,서산시,예산군,홍성군,[충북]음성군,제천시,진천군,충주시",
+          "wetherintrst3m": "[경기]광주시,용인시,[충남]계룡시",
+          "wethermap": "https://drought.go.kr/data/warning/Drought_20190810.pdf",
+          "wethermap1m": "https://drought.go.kr/data/warning/Drought_20190810.pdf",
+          "wethermap2m": "https://drought.go.kr/data/warning/Drought_20190810.pdf",
+          "wethermap3m": "https://drought.go.kr/data/warning/Drought_20190810.pdf",
+          "wetherserius": "-",
+          "wetherserius1m": "-",
+          "wetherserius2m": "-",
+          "wetherserius3m": "-"
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
