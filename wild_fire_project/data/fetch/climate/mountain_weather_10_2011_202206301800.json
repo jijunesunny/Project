@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 50.4,
+          "hm10m": 100,
+          "hm2m": 98.7,
+          "localarea": 10,
+          "obsid": 2011,
+          "obsname": "영월 두위봉",
+          "pa": 905,
+          "rn": 51.5,
+          "tm": "2022-06-30 18:00",
+          "tm10m": 20.2,
+          "tm2m": 20.4,
+          "ts": 22.2,
+          "wd10m": 217.3,
+          "wd10mstr": "SW",
+          "wd2m": 172.5,
+          "wd2mstr": "S",
+          "ws10m": 0.5,
+          "ws2m": 0.1
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

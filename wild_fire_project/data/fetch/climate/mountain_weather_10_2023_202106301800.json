@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 0,
+          "hm10m": 87,
+          "hm2m": 89.6,
+          "localarea": 10,
+          "obsid": 2023,
+          "obsname": "영월 망경대산",
+          "pa": 923.6,
+          "rn": 0.5,
+          "tm": "2021-06-30 18:00",
+          "tm10m": 20.5,
+          "tm2m": 20.5,
+          "ts": 21.1,
+          "wd10m": 192,
+          "wd10mstr": "SSW",
+          "wd2m": 205.6,
+          "wd2mstr": "SSW",
+          "ws10m": 0.4,
+          "ws2m": 0
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

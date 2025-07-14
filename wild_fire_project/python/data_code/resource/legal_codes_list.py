@@ -6,16 +6,15 @@ import xml.etree.ElementTree as ET
 BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 
-DATA_DIR = "../wild_fire_project/data/fetch/legal_codes"
+DATA_DIR = "../wild_fire_project/data/raw/legal_codes"
 os.makedirs(DATA_DIR, exist_ok=True)
-FILE_NAME = "gangwon_legal_codes.xml"
+FILE_NAME = "all_legal_codes_raw.xml"
 
 params = {
     "ServiceKey": SERVICE_KEY,
     "pageNo": 1,
     "numOfRows": 1000,
-    "type": "xml",
-    "locatadd_nm": "강원"  # 강원 지역 필터링
+    "type": "xml"
 }
 
 response = requests.get(BASE_URL, params=params)
@@ -28,16 +27,14 @@ if response.status_code == 200:
     with open(save_path, "w", encoding="utf-8") as f:
         f.write(xml_content)
 
-    print(f"강원도 법정동 XML 데이터 '{FILE_NAME}' 파일로 저장 완료")
+    print(f"원본 XML 데이터 '{FILE_NAME}' 파일로 저장 완료")
 
     # XML 파싱 예시 (필요 시)
     root = ET.fromstring(xml_content)
-    rows = root.findall(".//fetch")
-    print(f"총 {len(rows)}개 강원도 법정동 데이터 수신")
-
-    # 첫 5개 행 출력
-    for i, row in enumerate(rows[:5]):
-        print(f"\nrow {i+1}:")
+    # 예: 첫 3개 row 데이터 출력
+    rows = root.findall(".//row")
+    for i, row in enumerate(rows[:3]):
+        print(f"row {i+1}:")
         for child in row:
             print(f"  {child.tag}: {child.text}")
 

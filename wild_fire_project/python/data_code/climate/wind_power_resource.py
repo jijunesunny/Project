@@ -1,7 +1,7 @@
 import requests
 import json
-
-# API 기본 정보
+#풍력
+# API 기본 정보 https://www.data.go.kr/iim/api/selectAPIAcountView.do
 BASE_URL = "https://apis.data.go.kr/B551184/openapi/service/WindPwService/getWindPwHrInfo"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 

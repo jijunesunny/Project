@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 0.1,
+          "hm10m": 91,
+          "hm2m": 81.4,
+          "localarea": 10,
+          "obsid": 2014,
+          "obsname": "인제 원대봉",
+          "pa": 913,
+          "rn": 0,
+          "tm": "2019-06-30 18:00",
+          "tm10m": 21,
+          "tm2m": 20.7,
+          "ts": 22,
+          "wd10m": 245,
+          "wd10mstr": "WSW",
+          "wd2m": 236.4,
+          "wd2mstr": "WSW",
+          "ws10m": 3.4,
+          "ws2m": 2.6
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

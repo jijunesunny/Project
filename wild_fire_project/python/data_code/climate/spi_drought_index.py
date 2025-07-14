@@ -1,50 +1,56 @@
 import requests
-import json
+import xml.etree.ElementTree as ET
 import os
-#한국수자원공사 SPI 가뭄지수정보 API
-# API 기본 정보
-BASE_URL = "https://apis.data.go.kr/B500001/drghtIdexSpiAnals/analsInfoList"
+
+BASE_URL = "http://apis.data.go.kr/B500001/drghtIdexSpiAnals/analsInfoList"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 
-# 저장 경로 및 파일명 설정
+GANGWON_CODES_FILE = "../wild_fire_project/data/fetch/legal_codes/gangwon_legal_codes.xml"
+
 DATA_DIR = "../wild_fire_project/data/fetch/climate"
 os.makedirs(DATA_DIR, exist_ok=True)
-FILE_NAME = "spi_drought_index_201905.json"
 
-# 요청 파라미터
-params = {
-    "ServiceKey": SERVICE_KEY,
-    "pageNo": "1",
-    "numOfRows": "10",
-    "hjdCd": "1168058000",     # 행정동 코드 예시 (강원도 코드로 교체 필요)
-    "stDt": "20190501",        # 검색 시작일 (YYYYMMDD)
-    "edDt": "20241231",        # 검색 종료일 (YYYYMMDD)
-    "_type": "json"
-}
+def parse_region_codes_from_xml(xml_file_path):
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+    region_codes = []
+    for row in root.findall(".//row"):
+        region_cd = row.find("region_cd")
+        if region_cd is not None and region_cd.text:
+            region_codes.append(region_cd.text)
+    return region_codes
 
-def fetch_spi_data():
+def fetch_spi_data_for_region_xml(region_cd):
+    params = {
+        "ServiceKey": SERVICE_KEY,
+        "pageNo": "1",
+        "numOfRows": "10",
+        "hjdCd": region_cd,
+        "stDt": "20190501",
+        "edDt": "20241231",
+        "_type": "xml"
+    }
     response = requests.get(BASE_URL, params=params)
     if response.status_code == 200:
-        data = response.json()
-
-        # JSON 파일 저장
-        file_path = os.path.join(DATA_DIR, FILE_NAME)
+        file_path = os.path.join(DATA_DIR, f"spi_drought_index_{region_cd}.xml")
         with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-
-        print(f"데이터 저장 완료: {file_path}")
-        print("응답 데이터 일부 미리보기:")
-
-        items = data.get("response", {}).get("body", {}).get("items", {}).get("item")
-        if items:
-            if isinstance(items, dict):
-                items = [items]
-            for i, item in enumerate(items[:3]):
-                print(f"{i+1}. {item}")
-        else:
-            print("조회된 데이터가 없습니다.")
+            f.write(response.text)
+        print(f"지역 코드 {region_cd} 데이터 XML 저장 완료: {file_path}")
     else:
-        print(f"API 호출 실패, 상태 코드: {response.status_code}")
+        print(f"API 호출 실패 (지역 코드 {region_cd}), 상태 코드: {response.status_code}")
+        print(response.text)
+
+def main():
+    if not os.path.exists(GANGWON_CODES_FILE):
+        print(f"행정동 코드 파일이 없습니다: {GANGWON_CODES_FILE}")
+        return
+    region_codes = parse_region_codes_from_xml(GANGWON_CODES_FILE)
+    if not region_codes:
+        print("행정동 코드가 없습니다.")
+        return
+    print(f"총 {len(region_codes)}개 행정동 코드 중 첫 3개에 대해 XML 호출 및 저장합니다.")
+    for region_cd in region_codes[:3]:
+        fetch_spi_data_for_region_xml(region_cd)
 
 if __name__ == "__main__":
-    fetch_spi_data()
+    main()

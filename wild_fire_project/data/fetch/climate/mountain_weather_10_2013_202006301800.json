@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "items": {
+        "item": {
+          "cprn": 23.5,
+          "hm10m": 100,
+          "hm2m": 99.5,
+          "localarea": 10,
+          "obsid": 2013,
+          "obsname": "인제 대암산",
+          "pa": 871,
+          "rn": 27.5,
+          "tm": "2020-06-30 18:00",
+          "tm10m": 11.5,
+          "tm2m": 11.7,
+          "ts": 13.9,
+          "wd10m": 66,
+          "wd10mstr": "ENE",
+          "wd2m": 141.5,
+          "wd2mstr": "SE",
+          "ws10m": 6.2,
+          "ws2m": 1.4
+        }
+      },
+      "numOfRows": 10,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
