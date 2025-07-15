@@ -3,7 +3,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.ssl_ import create_urllib3_context
 import ssl
 import json
-
+#풍력 수자원
 BASE_URL = "https://apis.data.go.kr/B551184/openapi/service/WindPwService/getWindPwHrInfo"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 

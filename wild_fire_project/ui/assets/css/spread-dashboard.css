@@ -414,3 +414,18 @@ body {background: var(--color-body-bg);}
   height: 100% !important; /* (맵박스41vh/그래픽/박스 모두 vh 단위!) */
   max-height: 55vh; /*최대 55vh 사이에서 38vh 기본*/
 }
+
+/*마커 애니메이션오버레이*/
+.fire-overlay {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at center, #ff4500 40%, transparent 70%);
+  border-radius: 50%;
+  animation: flicker 1s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.3); opacity: 0.6; }
+}
+

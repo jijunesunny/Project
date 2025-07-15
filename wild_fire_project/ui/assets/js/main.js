@@ -114,6 +114,16 @@ function showLoginForm() {
 
 //실시간확인창 눌러서 dashboard.html로 연결
 // (index.html에 .feature-item이 여러개라면 정확히 "실시간 확인"만 골라야함)
+//  featureItems.forEach(item => {
+//   if (item.textContent.trim().includes('실시간 확인')) {
+//     item.style.cursor = 'pointer';
+    // item.addEventListener('click', function(event) {
+    //   event.preventDefault(); // a 태그 기본 이동 차단
+    //   window.location.href = '../assets/pages/dashboard.html';
+    // });
+//   }
+// });
+// 위 코드수정
 const featureItems = document.querySelectorAll('.feature-item');
 if (featureItems.length > 0) {
   featureItems[0].onclick = function() {

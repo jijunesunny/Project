@@ -2,6 +2,7 @@ import requests
 import json
 import os
 from datetime import datetime, timedelta
+#산악기상정보_지역코드_지점번호_관측시간_ 강원지역추출
 #2011년부터 2024년까지 매년 6월 30일 18시, 
 # API 기본 정보 (본인의 인증키 URL 인코딩 상태로 넣으세요)
 BASE_URL = "http://apis.data.go.kr/1400377/mtweather/mountListSearch"

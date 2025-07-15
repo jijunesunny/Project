@@ -1,6 +1,6 @@
 import json
 import os
-
+#수자원 가뭄예경보정보//이미지,표,그래프
 # 검사할 JSON 파일 경로 (필요시 여러 파일 검사용으로 변경 가능)
 FILE_PATH = "../wild_fire_project/data/fetch/climate/drought_forecast_201908.json"
 

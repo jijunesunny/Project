@@ -11,7 +11,7 @@ raw_files = [
 ]
 
 # 전처리 데이터 저장 폴더 및 파일명
-output_dir = '.wild_fire_project/data/processed'
+output_dir = '../wild_fire_project/data/processed'
 os.makedirs(output_dir, exist_ok=True)
 output_file = os.path.join(output_dir, 'gangwon_sanbul_combined_2023_2024.json')
 

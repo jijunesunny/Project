@@ -1,4 +1,4 @@
-// spread-dashboard.js
+// 처음데이터 spread-dashboard.js
 // 산불 확산 예측 대시보드 JS 스크립트
 // 2025.07.11 기준 최신 수정본
 
@@ -9,6 +9,10 @@ let map = null;             // 카카오맵 지도 객체
 let mapMarker = null;       // 현재 지도에 표시된 마커 객체
 let mapTimer = null;        // 5분 후 지도 초기화 타이머
 let fireMarkerImage = null; // 전역변수로 미리 선언
+// Leaflet 지도 초기화 변수
+// let leafletMap;
+// let wildfireMarker;
+// let wildfirePathLine;
 
 kakao.maps.load(() => {
   console.log('카카오맵 API 정상 로드');
@@ -66,15 +70,24 @@ window.addEventListener('DOMContentLoaded', () => {
   console.log('페이지 다 로드됨! 이벤트 등록 시작!');
 
   // 지역 드롭다운 클릭 시 리스트 열기/닫기
-  const dropdownSelected = document.querySelector('#region-dropdown .dropdown-selected');
-  if (dropdownSelected) {
-    dropdownSelected.addEventListener('click', () => {
-      const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
-      if (dropdownList) dropdownList.classList.toggle('open');
-    });
-  } else {
-    console.error('드롭다운 선택자 못 찾음!');
-  }
+  // const dropdownSelected = document.querySelector('#region-dropdown .dropdown-selected');
+  // if (dropdownSelected) {
+  //   dropdownSelected.addEventListener('click', () => {
+  //     const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
+  //     if (dropdownList) dropdownList.classList.toggle('open');
+  //   });
+  // } else {
+  //   console.error('드롭다운 선택자 못 찾음!');
+  // }
+const dropdownSelected = document.querySelector('#region-dropdown .dropdown-selected');
+const dropdownList = document.querySelector('#region-dropdown .dropdown-list');
+
+console.log(dropdownSelected, dropdownList); // undefined면 선택자 문제
+
+dropdownSelected.addEventListener('click', () => {
+  dropdownList.classList.toggle('open');
+});
+
 
   // 바깥 클릭 시 드롭다운 닫기
   document.addEventListener('mousedown', (e) => {
@@ -186,13 +199,11 @@ window.showKakaoMap = function(region) {
   new kakao.maps.Size(32, 32) // 크기 조절
 );
 
-  new kakao.maps.Marker({
-    map: map,
-    position: new kakao.maps.LatLng(start.lat, start.lng),
-    image: fireMarkerImage
-});
-
-
+//   new kakao.maps.Marker({
+//     map: map,
+//     position: new kakao.maps.LatLng(start.lat, start.lng),
+//     image: fireMarkerImage
+// });
 
   // 새로운 마커 생성 및 지도에 표시
   // mapMarker = new kakao.maps.Marker({
@@ -247,14 +258,27 @@ window.drawWildfireRoute = function(region, date) {
   });
 
   // 시작 지점 마커 (빨간색 불꽃 아이콘)
+  // const start = data.확산경로[0];
+  // new kakao.maps.Marker({
+  //   map: map,
+  //   position: new kakao.maps.LatLng(start.lat, start.lng),
+  //   image: new kakao.maps.MarkerImage(
+  //     'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+  //     new kakao.maps.Size(24, 36)
+  //   )
+  // });
+//커스텀 오버레이 애니메이션 빨간불꽃
   const start = data.확산경로[0];
-  new kakao.maps.Marker({
-    map: map,
+
+  const fireOverlayContent = '<div class="fire-overlay"></div>';
+
+  const fireOverlay = new kakao.maps.CustomOverlay({
     position: new kakao.maps.LatLng(start.lat, start.lng),
-    image: new kakao.maps.MarkerImage(
-      'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
-      new kakao.maps.Size(24, 36)
-    )
+    content: fireOverlayContent,
+    //여러지점 마커 오버레이
+   // content: '<div class="fire-overlay"></div>',
+    map: map,
+    yAnchor: 1
   });
 
   // 종료 지점 마커 (파란색 불꽃 아이콘)
@@ -289,18 +313,19 @@ window.drawWildfireRoute = function(region, date) {
       position: new kakao.maps.LatLng(p.lat, p.lng),
       content: `
       <div style="
-        padding: 8px 8px; 
-        border-radius: 0px; 
+        padding: 8px 12px; 
+        border-radius: 8px; 
         background: white; 
         color: rgba(255, 99, 71, 0.9); 
         font-weight: bold; 
         box-shadow: white;
-        font-size: 12px;
-        max-width: 150px;
+        font-size: 13px;
+        max-width: 180px;
+        font-family: 'Noto Sans KR', sans-serif;
         ">
-        시간:${p.time}<br>
-        거리:${p.거리}m<br>
-        속도:${p.속도}m/h
+        시간:<strong style="color:#d33;">${p.time}</strong><br>
+        거리:<strong>${p.거리}m</strong><br>
+        속도:<strong>${p.속도}m/h</strong>
       </div>`
     }).open(map);
   });
@@ -490,4 +515,3 @@ function initComments() {
   // 초기 댓글 렌더링
   renderComments();
 }
-

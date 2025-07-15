@@ -1,7 +1,8 @@
 import requests   # API 호출을 위한 라이브러리
 import os        # 폴더 및 파일 관리를 위한 라이브러리
 import json      # JSON 데이터 읽고 쓰기 위한 라이브러리
-
+#2024 강원이전산불데이터
+#2024 전국산불데이터에서 강원지역만 추출
 # 1. API 호출에 필요한 기본 변수 설정
 BASE_URL = "https://api.odcloud.kr/api"
 ENDPOINT = "/15121380/v1/uddi:dc14cfb3-7f32-4a21-bf1e-be888eab9e17"  # 2024.10.16 데이터 API 주소 (테스트인증키라10건)

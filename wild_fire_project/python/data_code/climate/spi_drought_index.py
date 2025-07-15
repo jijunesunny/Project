@@ -1,7 +1,7 @@
 import requests
 import xml.etree.ElementTree as ET
 import os
-
+#수자원 spi
 BASE_URL = "http://apis.data.go.kr/B500001/drghtIdexSpiAnals/analsInfoList"
 SERVICE_KEY = "VWe912NZGdkAUk7P2Z9DBQW7Ia3pRtHvdqOauFzx78YD+rKkBjstyoonaP4R9nb4esjHPSHrXVfRW4UQ9aFVhA=="
 
