@@ -1,6 +1,8 @@
 import pandas as pd
 #위도,경도,관측일자,일평균자료,습도,기온,풍속,이슬점온도,최고,최저기온,일조시간등)
 # CSV 파일>>xlsx파일로 전체합치기(강원도만 202001-202412까지 38개 파일)
+#\data_code\climate\fetch_weather_observation202001_202412.py
+#엑셀로 저장
 # 업로드된 파일 경로
 input_path = r'D:/prepareforproject/datacollection/weather_observation/weather_observation202001_202412.xlsx'
 

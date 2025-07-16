@@ -1,0 +1,31 @@
+
+import rasterio
+import numpy as np
+import os
+
+def calculate_ndvi(nir_path, red_path, ndvi_output_path):
+    with rasterio.open(nir_path) as nir_src:
+        nir = nir_src.read(1).astype('float32')
+    with rasterio.open(red_path) as red_src:
+        red = red_src.read(1).astype('float32')
+
+    # NDVI 계산
+    ndvi = (nir - red) / (nir + red + 1e-6)  # 0으로 나누는 것 방지
+
+    # 메타데이터 복사
+    meta = nir_src.meta
+    meta.update(dtype=rasterio.float32, count=1)
+
+    # NDVI 저장
+    with rasterio.open(ndvi_output_path, 'w', **meta) as dst:
+        dst.write(ndvi, 1)
+
+    print(f"NDVI 계산 및 저장 완료: {ndvi_output_path}")
+
+# 예시 경로
+nir_band = r'D:/data/raw/landsat/NIR_band.tif'  # 근적외선 밴드 파일
+red_band = r'D:/data/raw/landsat/RED_band.tif'  # 적색 밴드 파일
+ndvi_save_path = r'D:/data/processed/ndvi/landsat_ndvi_20220101.tif'
+
+calculate_ndvi(nir_band, red_band, ndvi_save_path)
+

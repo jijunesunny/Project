@@ -1,10 +1,12 @@
 import os
 import json
 import xml.etree.ElementTree as ET
+#오케이 코드 
 #locatadd_nm지역 주소명 (법정동명)/region_cd 행정구역 통합코드
 #행정동별 위치 기반 분석, 데이터 매핑 등에 활용
 XML_FILE_PATH = "../wild_fire_project/data/fetch/legal_codes/gangwon_legal_codes.xml"
 JSON_FILE_PATH = "../wild_fire_project/data/fetch/legal_codes/gangwon_legal_codes.json"
+
 
 def xml_to_json(xml_path, json_path):
     tree = ET.parse(xml_path)

@@ -1,6 +1,7 @@
 import requests
 import os
 import xml.etree.ElementTree as ET
+#강원시군구음면리단위의 행정구역 다 있지만 위경도가 없음 
 #locatadd_nm지역 주소명 (법정동명)/region_cd 행정구역 통합코드
 #행정동별 위치 기반 분석, 데이터 매핑 등에 활용
 BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList"

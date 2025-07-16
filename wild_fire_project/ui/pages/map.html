@@ -1,0 +1,24 @@
+<!-- ../assets/pages/map.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Seed - 확산예측 맵</title>
+ 
+  <link rel="stylesheet" href="../assets/css/map.css" />
+  <!-- KakaoMap 라이브러리 -->
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b737229386d781c1484c4431d4a76a1"></script>
+  </head>
+  <body>
+  <div id="map" style="width: 100vw; height: 100vh;"></div>
+<!-- 좌측 상단 고정: 위경도 좌표 -->
+  <div id="coordBox">위도: -, 경도: -</div>
+<!-- 중앙 알림 박스: 강원도 외 클릭 시 -->
+  <div id="alertBox"></div> 
+  <script src="../assets/js/map.js"></script>
+  <script src="../assets/js/map.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
+</body>
+</html>

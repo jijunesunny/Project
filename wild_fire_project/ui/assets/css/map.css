@@ -1,0 +1,38 @@
+/* ../assets/css/map.css */
+
+/* 지도 전체화면 */
+#map {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: auto; /*  꼭 켜야 지도클릭이벤트 가능 */
+}
+
+/* 클릭 좌표 박스 */
+#coordBox {
+  top: 1.5vh;
+  left: 1.5vw;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #333;
+  font-size: 1rem;
+  z-index: 10;
+  font-weight: bold;
+}
+
+/* 지도 메시지 DOM - 화면 중앙에 배치+ rem/vh/vw 통일*/
+#alertBox {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  padding: 1rem 2rem; /*반응형 padding*/
+  background: #fff;
+  border: 0.15rem solid #000;
+  border-radius: 0.5rem;  /*부드럽게*/
+  font-size: 1rem;
+  font-weight: bold;
+  z-index: 999;
+  display: none;   /* 기본 숨김*/
+  max-width: 90vw;   /* 너무 길어지지 않게 제한*/
+  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.25);
+}
