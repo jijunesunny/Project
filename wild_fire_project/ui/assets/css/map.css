@@ -9,14 +9,16 @@
 
 /* 클릭 좌표 박스 */
 #coordBox {
+  position: absolute;
   top: 1.5vh;
   left: 1.5vw;
   padding: 0.6rem 1rem;
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #333;
+  border: 0.1rem solid #333;
   font-size: 1rem;
   z-index: 10;
   font-weight: bold;
+  display: block;
 }
 
 /* 지도 메시지 DOM - 화면 중앙에 배치+ rem/vh/vw 통일*/

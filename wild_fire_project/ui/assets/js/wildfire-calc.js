@@ -1,53 +1,60 @@
-//팀 지도
-//산불 확산 계산, 타원 그리기, 면적 수학식, 확산속도 기반 스타일 계산
-//../assets/js/wildfire-calc.js
-//면적 ha → m² 변환(m 단위)
-// 풍향→ 회전각도 적용
-// 풍속  → windFactor 적용
-// 확산방향, rx, ry 계산
-//타원 polygon 만들고 map.addOverlay()
-//속도기반 색상: 확산속도에 따라 빨강-주황-노랑
+// ../assets/js/wildfire-calc.js
+//팀 확산계산처리
+//산불확산계산은 wildfire-calc.js에서 처리
+//../assets/js/map.js 에서 지도 움직임만 처리
+//../data/raw/legal_codes/hangjeongdong_gangwon.geojson 에서 가져옴
+//클릭시 위경도표시 (LatLng 출력)
+//폴리곤은 strokeStyle: 'dash', fillOpacity: 0.0, hover 시 색상 바뀜
+// ----------------------------------------------
+//  산불 확산 타원 계산 & 시각화 전담
+// - 헥타르→m², 풍속/풍향 반영
+// - rx/ry, 회전, 색상 지정
+// ----------------------------------------------
 
-//  산불 확산 타원 그리기 함수
+//클릭좌표를 백엔드API로보내 예측결과를받고,
+// 그결과(area_ha면적, windDeg풍향, windSpeed풍속,spreadRate확산속도)를 이용해
+//시간에 따라 점점 커지는 타원
+
+/**
+ * 산불 확산 타원 그리기
+ * @returns {kakao.maps.Polygon} 방금 그린 폴리곤 객체
+ */
 function simulateFireEllipse(lat, lng, area_ha, windDeg, windSpeed) {
-  const area_m2 = area_ha * 10000; //면적 헥타르=> m²
-  const windFactor = 1 + (windSpeed / 10); //풍속 영향
-  //타원 반지름 계산
+  const area_m2 = area_ha * 10000;
+  const windFactor = 1 + (windSpeed / 10);
   const ry = Math.sqrt(area_m2 / (Math.PI * windFactor));
   const rx = ry * windFactor;
-  //위경도 환산   
-  const rxLat = rx / 111000; // 위도 환산
-  const ryLng = ry / (111000 * Math.cos(lat * Math.PI / 180)); // 경도 환산
-  //타원 점 생성
-  const steps = 60;
-  const points = [];
-  const rad = windDeg * Math.PI / 180;
 
-  for (let i = 0; i < steps; i++) {
-    const theta = (2 * Math.PI * i) / steps;
+  const rxLat = rx / 111000;
+  const ryLng = ry / (111000 * Math.cos(lat * Math.PI / 180));
+
+  const pts = [];
+  const rad = windDeg * Math.PI / 180;
+  for (let i = 0; i <= 60; i++) {
+    const theta = (2 * Math.PI * i) / 60;
     const x = rxLat * Math.cos(theta);
     const y = ryLng * Math.sin(theta);
+    const X = x * Math.cos(rad) - y * Math.sin(rad);
+    const Y = x * Math.sin(rad) + y * Math.cos(rad);
 
-    const rotatedX = x * Math.cos(rad) - y * Math.sin(rad);
-    const rotatedY = x * Math.sin(rad) + y * Math.cos(rad);
-
-    points.push(new kakao.maps.LatLng(lat + rotatedX, lng + rotatedY));
+    pts.push(new kakao.maps.LatLng(lat + X, lng + Y));
   }
+  
+//속도 기반 색상
+  let fillColor = '#ffff00';
+  if (windSpeed >= 2) fillColor = '#ff0000';
+  else if (windSpeed >= 0.5) fillColor = '#ff9900';
 
-  // 색상 결정 => 확산속도 = windSpeed 사용)
-  let fillColor = "#ffff00"; // 느림
-  if (windSpeed >= 2.0) fillColor = "#ff0000"; // 빠름
-  else if (windSpeed >= 0.5) fillColor = "#ff9900"; // 보통
-  //지도에 타원 표시 
-  const ellipse = new kakao.maps.Polygon({
-    path: points,
+  const polygon = new kakao.maps.Polygon({
+    path: pts,
     strokeWeight: 2,
-    strokeColor: "#aa0000",
+    strokeColor: '#aa0000',
     strokeOpacity: 0.7,
-    strokeStyle: 'solid',
-    fillColor: fillColor,
-    fillOpacity: 0.5,
+    fillColor,
+    fillOpacity: 0.5
   });
-
-  ellipse.setMap(map);
+  polygon.setMap(map);
+  return polygon; // 반환
 }
+
+
