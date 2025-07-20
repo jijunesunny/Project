@@ -1,7 +1,10 @@
 // ../server/api/wildfire-predict.js
+//HTTP라우터
 const express = require('express');
 const router = express.Router();
+//모델 호출 모듈에서 (server/models/wildfire-model.js)
 // predictFireSpread는 머신러닝 모델 호출 함수
+//server/api → server/models 로 정확히 연결됨
 const { predictFireSpread } = require('../models/wildfire-model');
 
 router.get('/predict', async (req, res) => {

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Ellipse Debug</title>
+  <style>
+    html, body {margin:0; padding:0; height:100%;}
+    #map {width:100vw; height:100vh;}
+    #coordBox {
+      position:absolute; top:1.5vh; left:1.5vw;
+      background:rgba(255,255,255,0.9);
+      padding:0.5rem 1rem; border:1px solid #333;
+      font-weight:bold; z-index:1000; display:none;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="coordBox"></div>
+
+  <!-- SDK (YOUR_JS_KEY 교체!) -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b737229386d781c1484c4431d4a76a1"></script>
+  <script>
+    const map = new kakao.maps.Map(
+      document.getElementById('map'),
+      { center: new kakao.maps.LatLng(37.7,128.0), level:8,
+        draggable:false, zoomable:false }
+    );
+    console.log('✅ map initialized');
+
+    // 강원도 사각 경계
+    const sw = new kakao.maps.LatLng(37.018205,127.080231);
+    const ne = new kakao.maps.LatLng(38.642618,129.371910);
+    const box = [sw,
+      new kakao.maps.LatLng(sw.getLat(), ne.getLng()),
+      ne,
+      new kakao.maps.LatLng(ne.getLat(), sw.getLng()),
+      sw
+    ];
+    new kakao.maps.Polygon({
+      map,
+      path: box,
+      strokeWeight:3, strokeColor:'#00aa00',
+      strokeStyle:'dash', fillColor:'rgba(0,255,0,0.1)',
+      fillOpacity:0.2
+    });
+    const bounds = new kakao.maps.LatLngBounds(sw, ne);
+    const coordBox = document.getElementById('coordBox');
+    let currentEllipse = null, animTimer = null;
+
+    // 클릭 리스너
+    kakao.maps.event.addListener(map, 'click', e => {
+      console.log('🖱 click event:', e.latLng.toString());
+      if (!bounds.contain(e.latLng)) {
+        console.warn('⚠️ outside bounds – ignored');
+        return;
+      }
+      const lat = e.latLng.getLat(), lng = e.latLng.getLng();
+      coordBox.innerText = `📍 ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+      coordBox.style.display='block';
+      setTimeout(()=>coordBox.style.display='none',3000);
+
+      // 디버그: animateEllipse 호출 직전
+      console.log('→ call animateEllipse with:', {lat, lng, area_ha:4, windDeg:60, windSpeed:2.0, duration:6});
+      animateEllipse(lat, lng, 4, 60, 2.0, 6);
+    });
+
+    function animateEllipse(lat, lng, maxHa, windDeg, windSpeed, durationSec) {
+      console.log('🔄 animateEllipse start', {lat,lng,maxHa,windDeg,windSpeed,durationSec});
+      if (currentEllipse) currentEllipse.setMap(null);
+      if (animTimer) clearInterval(animTimer);
+
+      const windFactor = 1 + windSpeed/10;
+      const rad = windDeg * Math.PI/180;
+      let t = 0;
+
+      animTimer = setInterval(() => {
+        t++;
+        const frac = t/durationSec;
+        const ha   = maxHa * frac;
+        const ry   = Math.sqrt((ha*10000)/(Math.PI*windFactor));
+        const rx   = ry * windFactor;
+        const dLat = rx/111000;
+        const dLng = ry/(111000*Math.cos(lat*Math.PI/180));
+
+        console.log(` t=${t}`, {ha, rx, ry, dLat, dLng});
+
+        // 60개 좌표 생성
+        const path = [];
+        for (let i=0; i<60; i++) {
+          const theta = (2*Math.PI*i)/60;
+          const x = dLat*Math.cos(theta), y = dLng*Math.sin(theta);
+          const X = x*Math.cos(rad)-y*Math.sin(rad);
+          const Y = x*Math.sin(rad)+y*Math.cos(rad);
+          path.push(new kakao.maps.LatLng(lat+X, lng+Y));
+        }
+        console.log(' path length:', path.length);
+
+        // 색상
+        let fill = '#ffff00';
+        if (windSpeed>=2) fill='#ff0000';
+        else if (windSpeed>=0.5) fill='#ff9900';
+
+        if (currentEllipse) currentEllipse.setMap(null);
+        currentEllipse = new kakao.maps.Polygon({
+          map,
+          path,
+          strokeWeight:2,
+          strokeColor:'#aa0000',
+          fillColor:fill,
+          fillOpacity:0.4
+        });
+
+        if (t>=durationSec) clearInterval(animTimer);
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

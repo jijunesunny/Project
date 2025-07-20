@@ -4,21 +4,26 @@
 #map {
   width: 100vw;
   height: 100vh;
-  pointer-events: auto; /*  꼭 켜야 지도클릭이벤트 가능 */
+ 
+  /* pointer-events: auto; 꼭 켜야 지도클릭이벤트 가능 */
+  /* cursor: grab ; */
 }
-
+/* 포인터 모드 */
+/* #map.pointer {
+  cursor: pointer !important;
+} */
 /* 클릭 좌표 박스 */
 #coordBox {
   position: absolute;
   top: 1.5vh;
   left: 1.5vw;
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   background: rgba(255, 255, 255, 0.9);
   border: 0.1rem solid #333;
   font-size: 1rem;
-  z-index: 10;
+  z-index: 1000;
   font-weight: bold;
-  display: block;
+  display: none;
 }
 
 /* 지도 메시지 DOM - 화면 중앙에 배치+ rem/vh/vw 통일*/

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>강원도 클릭 → 시뮬레이션</title>
+  <style>
+    html, body { margin:0; padding:0; height:100%; }
+    #map { width:100vw; height:100vh; }
+    #coordBox {
+      position:absolute;
+      top:1.5vh; left:1.5vw;
+      background:rgba(255,255,255,0.9);
+      padding:0.5rem 1rem;
+      border:1px solid #333;
+      font-weight:bold;
+      z-index:1000;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="coordBox"></div>
+
+  <!-- 카카오맵 SDK -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b737229386d781c1484c4431d4a76a1"></script>
+  <script>
+    // 1) 지도 생성 (남한 전체)
+    const map = new kakao.maps.Map(
+      document.getElementById('map'),
+      { center: new kakao.maps.LatLng(37.7,128.0), level: 8 }
+    );
+
+    // 2) 강원도 사각 경계 정의 (위경도: SW, NE)
+    const sw = new kakao.maps.LatLng(37.018205, 127.080231);
+    const ne = new kakao.maps.LatLng(38.642618, 129.371910);
+    const box = [
+      new kakao.maps.LatLng(sw.getLat(), sw.getLng()),
+      new kakao.maps.LatLng(sw.getLat(), ne.getLng()),
+      new kakao.maps.LatLng(ne.getLat(), ne.getLng()),
+      new kakao.maps.LatLng(ne.getLat(), sw.getLng()),
+      new kakao.maps.LatLng(sw.getLat(), sw.getLng()),
+    ];
+    const gangwonPoly = new kakao.maps.Polygon({
+      path: box,
+      strokeWeight: 3,
+      strokeColor: '#00aa00',
+      strokeStyle: 'dash',
+      fillColor: 'rgba(0,255,0,0.1)',
+    });
+    gangwonPoly.setMap(map);
+
+    // 3) 클릭 좌표 박스
+    const coordBox = document.getElementById('coordBox');
+
+    // 4) 클릭 이벤트: Bounds 내부만 처리
+    //    LatLngBounds 로 만든 사각형
+    const bounds = new kakao.maps.LatLngBounds(sw, ne);
+
+    kakao.maps.event.addListener(map, 'click', e => {
+      const lat = e.latLng.getLat();
+      const lng = e.latLng.getLng();
+
+      if (!bounds.contain(e.latLng)) {
+        // 사각 밖 클릭 → 무시
+        return;
+      }
+
+      // 4-1) 좌표 표시
+      coordBox.innerText = `📍 위도: ${lat.toFixed(5)}, 경도: ${lng.toFixed(5)}`;
+      coordBox.style.display = 'block';
+      setTimeout(()=> coordBox.style.display='none', 4000);
+
+      // 4-2) 예시 시뮬레이션: 빨간 타원 애니메이션
+      simulate(lat, lng);
+    });
+
+    // 5) 예시: 클릭 위치에 빨간 타원(점점 커지는 원) 표시
+    let anim = null;
+    function simulate(lat, lng) {
+      if (anim) anim.setMap(null);  // 이전 애니 제거
+      let r = 1000;  // 시작 반경(m)
+      anim = new kakao.maps.Circle({
+        center: new kakao.maps.LatLng(lat, lng),
+        radius: r,
+        strokeWeight: 2,
+        strokeColor: '#f00',
+        fillColor: '#f00',
+        fillOpacity: 0.3,
+      });
+      anim.setMap(map);
+
+      const iv = setInterval(() => {
+        r += 1000;
+        anim.setRadius(r);
+        if (r > 20000) clearInterval(iv);
+      }, 200);
+    }
+  </script>
+</body>
+</html>
