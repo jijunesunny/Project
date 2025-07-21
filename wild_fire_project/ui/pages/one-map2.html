@@ -19,15 +19,15 @@
   <div id="map"></div>
   <div id="coordBox"></div>
 
-  <!-- SDK (YOUR_JS_KEY 교체!) -->
+  <!-- SDK -->
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b737229386d781c1484c4431d4a76a1"></script>
   <script>
     const map = new kakao.maps.Map(
       document.getElementById('map'),
-      { center: new kakao.maps.LatLng(37.7,128.0), level:8,
+      { center: new kakao.maps.LatLng(37.4,128.0), level:11,
         draggable:false, zoomable:false }
     );
-    console.log('✅ map initialized');
+    console.log(' map initialized');
 
     // 강원도 사각 경계
     const sw = new kakao.maps.LatLng(37.018205,127.080231);
@@ -53,11 +53,11 @@
     kakao.maps.event.addListener(map, 'click', e => {
       console.log('🖱 click event:', e.latLng.toString());
       if (!bounds.contain(e.latLng)) {
-        console.warn('⚠️ outside bounds – ignored');
-        return;
+        console.warn(' outside bounds – ignored');
+        return; 
       }
       const lat = e.latLng.getLat(), lng = e.latLng.getLng();
-      coordBox.innerText = `📍 ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+      coordBox.innerText = ` ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
       coordBox.style.display='block';
       setTimeout(()=>coordBox.style.display='none',3000);
 
@@ -67,7 +67,7 @@
     });
 
     function animateEllipse(lat, lng, maxHa, windDeg, windSpeed, durationSec) {
-      console.log('🔄 animateEllipse start', {lat,lng,maxHa,windDeg,windSpeed,durationSec});
+      console.log(' animateEllipse start', {lat,lng,maxHa,windDeg,windSpeed,durationSec});
       if (currentEllipse) currentEllipse.setMap(null);
       if (animTimer) clearInterval(animTimer);
 

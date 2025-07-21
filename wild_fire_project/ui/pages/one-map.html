@@ -29,7 +29,7 @@
     // 1) 지도 생성 (남한 전체)
     const map = new kakao.maps.Map(
       document.getElementById('map'),
-      { center: new kakao.maps.LatLng(37.7,128.0), level: 8 }
+      { center: new kakao.maps.LatLng(37.4,128.0), level: 12 }
     );
 
     // 2) 강원도 사각 경계 정의 (위경도: SW, NE)
@@ -68,7 +68,7 @@
       }
 
       // 4-1) 좌표 표시
-      coordBox.innerText = `📍 위도: ${lat.toFixed(5)}, 경도: ${lng.toFixed(5)}`;
+      coordBox.innerText = ` 위도: ${lat.toFixed(5)}, 경도: ${lng.toFixed(5)}`;
       coordBox.style.display = 'block';
       setTimeout(()=> coordBox.style.display='none', 4000);
 

@@ -4,7 +4,6 @@
 #map {
   width: 100vw;
   height: 100vh;
- 
   /* pointer-events: auto; 꼭 켜야 지도클릭이벤트 가능 */
   /* cursor: grab ; */
 }
