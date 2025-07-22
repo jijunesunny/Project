@@ -24,8 +24,8 @@ kakao.maps.load(() => {
     new kakao.maps.Size(32, 32)
   );
 
-  // 최초 지도 띄우기 (기본지역: 춘천시)
-  showKakaoMap("춘천시");
+  // 최초 지도 띄우기 (기본지역: 인제군)
+  showKakaoMap("인제군");
 });
 
 // 지역별 위도경도 좌표 데이터 (강원도 각 시군)
@@ -144,7 +144,7 @@ kakao.maps.load(() => {
   kakaoMapReady = true;
 
   // 최초 지도 띄우기 (기본지역: 춘천시)
-  showKakaoMap("춘천시");
+  showKakaoMap("인제군");
 });
 
 // --- 전역 함수: 지역 선택 시 호출되는 함수 ---
