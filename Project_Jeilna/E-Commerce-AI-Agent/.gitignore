@@ -1,0 +1,84 @@
+#c:\workspace\archive\.gitignore
+#위치: 레포지터리 최상위(= .git 폴더가 있는 곳 (같은위치가 최상위임)곳에 폴더를 만들기)
+# =========================
+# Python 가상환경 / 캐시
+# =========================
+.venv/                 # 프로젝트별 가상환경 폴더 통째로 무시
+venv/
+env/
+**/site-packages/      # 어느 깊이든 site-packages 전체 무시
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# =========================
+# ML/영상 대형 모델/데이터(버전관리 제외 권장)
+# =========================
+*.pt
+*.pth
+*.onnx
+*.h5
+*.ckpt
+*.bin
+*.weights
+*.tflite
+*.mp4
+*.mov
+*.zip
+*.7z
+*.tar
+*.gz
+*.dmp
+*.bak
+*.iso
+*.exe
+*.msi
+# =========================
+# 바이너리/플랫폼 의존 파일
+# =========================
+*.pyd
+*.so
+*.dylib
+*.dll
+*.lib
+*.exp
+*.obj
+
+# =========================
+# 프레임워크/빌드 산출물(JAR/WAR/클래스/리포트 등)
+# =========================
+# Java
+**/target/
+**/build/
+**/out/
+*.jar
+*.war
+*.ear
+*.log
+*.class
+
+# Spring
+spring/.metadata/
+spring/Servers/
+**/.classpath
+**/.project
+**/.settings/
+
+# Node
+node_modules/
+
+# =========================
+# IDE/OS/민감정보
+# =========================
+
+.vscode/
+.idea/
+*.iml
+.classpath
+.project
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.pem
+*.key
